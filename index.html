@@ -1,0 +1,1808 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Motivation Drives &dash; Reference Guide</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Base colours */
+            --bg-deep: #0b1220;
+            --glass: #0e1628cc;
+            --text: #e9eefb;
+            --muted: #b9c6e5;
+
+            --bg1: rgba(63, 81, 181, .18);
+            --bg2: rgba(103, 58, 183, .14);
+
+            /* Drive colours (from your palette) */
+            --d1: #3F51B5;
+            /* Indigo */
+            --d2: #4CAF50;
+            /* Emerald */
+            --d3: #ff7b00;
+            /* Orange */
+            --d4: #ffc320;
+            /* Gold */
+            --d5: #E040FB;
+            /* Magenta */
+            --d6: #8D6E63;
+            /* Brown */
+            --d7: #F44336;
+            /* Crimson */
+            --d8: #424242;
+            /* Charcoal */
+
+            /* AMP overlay colours */
+            --amp-auto: #009688;
+            /* Autonomy */
+            --amp-mast: #1976D2;
+            /* Mastery */
+            --amp-purp: #673AB7;
+            /* Purpose */
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html,
+        body {
+            height: 100%
+        }
+
+        body {
+            margin: 0;
+            font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
+            color: var(--text);
+            background:
+                transparent !important;
+        }
+
+        /* TOC - three-column tree layout */
+        nav.toc.toc-tree {
+            padding: 18px
+        }
+
+        .toc-columns {
+            display: grid;
+            gap: 18px;
+            grid-template-columns: repeat(3, minmax(240px, 1fr));
+            align-items: start;
+        }
+
+        .toc-col {
+            padding: 12px;
+            border-radius: 12px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, .03), rgba(255, 255, 255, .015));
+            box-shadow: 0 0 0 1px rgba(255, 255, 255, .06) inset;
+        }
+
+        .toc-h {
+            margin: 0 0 10px;
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--muted);
+            letter-spacing: .06em;
+            text-transform: uppercase;
+        }
+
+        .toc-list {
+            margin: 0;
+            padding: 0;
+            display: grid;
+            gap: 8px;
+            list-style: none
+        }
+
+        .toc-item a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--text);
+            padding: 8px 10px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, .04);
+            border: 1px solid rgba(255, 255, 255, .06);
+        }
+
+        .toc-item a:hover {
+            background: rgba(255, 255, 255, .07)
+        }
+
+        /* compact coloured pills for drives */
+        .toc-pill {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 36px;
+            height: 26px;
+            padding: 0 8px;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 12px;
+            letter-spacing: .04em;
+            border: 1px solid rgba(255, 255, 255, .08);
+        }
+
+        .toc-pill.d1 {
+            background: rgba(63, 81, 181, .18);
+            border-color: rgba(63, 81, 181, .35)
+        }
+
+        .toc-pill.d2 {
+            background: rgba(76, 175, 80, .18);
+            border-color: rgba(76, 175, 80, .35)
+        }
+
+        .toc-pill.d3 {
+            background: rgba(255, 152, 0, .18);
+            border-color: rgba(255, 152, 0, .35)
+        }
+
+        .toc-pill.d4 {
+            background: rgba(255, 235, 59, .18);
+            border-color: rgba(255, 235, 59, .35)
+        }
+
+        .toc-pill.d5 {
+            background: rgba(224, 64, 251, .18);
+            border-color: rgba(224, 64, 251, .35)
+        }
+
+        .toc-pill.d6 {
+            background: rgba(141, 110, 99, .18);
+            border-color: rgba(141, 110, 99, .35)
+        }
+
+        .toc-pill.d7 {
+            background: rgba(244, 67, 54, .18);
+            border-color: rgba(244, 67, 54, .35)
+        }
+
+        .toc-pill.d8 {
+            background: rgba(66, 66, 66, .25);
+            border-color: rgba(66, 66, 66, .45)
+        }
+
+        @media (max-width:980px) {
+            .toc-columns {
+                grid-template-columns: repeat(2, minmax(240px, 1fr));
+            }
+        }
+
+        @media (max-width:640px) {
+            .toc-columns {
+                grid-template-columns: 1fr;
+            }
+        }
+
+
+        #bg {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+            background:
+                radial-gradient(1100px 700px at 10% 8%, var(--bg1), transparent 60%),
+                radial-gradient(900px 650px at 92% 0%, var(--bg2), transparent 55%),
+                linear-gradient(180deg, #0a1021, var(--bg-deep) 35%, var(--bg-deep) 100%);
+            will-change: background;
+        }
+
+        /* Theme tints per Drive when body[data-theme="..."] changes */
+        body[data-theme="base"] {
+            --bg1: rgba(63, 81, 181, .18);
+            --bg2: rgba(103, 58, 183, .14);
+        }
+
+        /* default */
+        body[data-theme="d1"] {
+            --bg1: rgba(63, 81, 181, .18);
+            --bg2: rgba(110, 198, 255, .15);
+        }
+
+        /* Indigo + soft blue */
+        body[data-theme="d2"] {
+            --bg1: rgba(76, 175, 80, .18);
+            --bg2: rgba(129, 199, 132, .15);
+        }
+
+        /* Emerald + mint */
+        body[data-theme="d3"] {
+            --bg1: rgba(255, 152, 0, .18);
+            --bg2: rgba(255, 183, 77, .15);
+        }
+
+        /* Orange + amber */
+        body[data-theme="d4"] {
+            --bg1: rgba(255, 235, 59, .18);
+            --bg2: rgba(251, 192, 45, .15);
+        }
+
+        /* Gold + rich gold */
+        body[data-theme="d5"] {
+            --bg1: rgba(224, 64, 251, .18);
+            --bg2: rgba(234, 128, 252, .15);
+        }
+
+        /* Magenta + lilac */
+        body[data-theme="d6"] {
+            --bg1: rgba(141, 110, 99, .18);
+            --bg2: rgba(188, 170, 164, .15);
+        }
+
+        /* Brown + taupe */
+        body[data-theme="d7"] {
+            --bg1: rgba(244, 67, 54, .18);
+            --bg2: rgba(255, 138, 128, .15);
+        }
+
+        /* Crimson + coral */
+        body[data-theme="d8"] {
+            --bg1: rgba(66, 66, 66, .18);
+            --bg2: rgba(158, 158, 158, .15);
+        }
+
+        /* Charcoal + grey */
+
+        /* Layout */
+        .wrap {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 32px 24px 96px
+        }
+
+        header.page {
+            margin: 0 0 18px;
+            padding: 18px 20px;
+            border-radius: 20px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, .03), rgba(255, 255, 255, .02));
+            box-shadow: 0 0 0 1px rgba(255, 255, 255, .06) inset, 0 25px 60px rgba(0, 0, 0, .45);
+        }
+
+        .kicker {
+            color: var(--muted);
+            font-weight: 600;
+            letter-spacing: .04em;
+            text-transform: uppercase;
+            font-size: clamp(26px, 4vw, 30px);
+        }
+
+        h1 {
+            margin: .25rem 0 .5rem;
+            font-size: clamp(16px, 4vw, 26px)
+        }
+
+        .subtitle {
+            color: var(--muted)
+        }
+
+        /* TOC */
+        nav.toc {
+            margin: 20px 0 26px;
+            padding: 16px;
+            border-radius: 16px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, .04), rgba(255, 255, 255, .03));
+            box-shadow: 0 0 0 1px rgba(255, 255, 255, .06) inset;
+        }
+
+        .toc-grid {
+            display: grid;
+            gap: 10px;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        }
+
+        .toc a {
+            color: var(--text);
+            text-decoration: none
+        }
+
+        .toc a .chip {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 999px;
+            font-size: 13px;
+            margin-right: 8px;
+            background: rgba(255, 255, 255, .08);
+            border: 1px solid rgba(255, 255, 255, .06)
+        }
+
+        .toc a:hover {
+            text-decoration: underline
+        }
+
+        /* Section shells */
+        section.block {
+            margin: 34px 0;
+            padding: 20px;
+            border-radius: 20px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, .03), rgba(255, 255, 255, .02));
+            box-shadow: 0 0 0 1px rgba(255, 255, 255, .06) inset, 0 20px 50px rgba(0, 0, 0, .45);
+        }
+
+        section.block h2 {
+            margin: 4px 0 8px;
+            font-size: clamp(20px, 3vw, 30px)
+        }
+
+        .legend {
+            color: var(--muted);
+            margin-top: 2px
+        }
+
+        /* Card grid */
+        /* 3-column layout on wide screens, graceful fallback on smaller */
+        .cards {
+            display: grid;
+            gap: 16px;
+            grid-template-columns: repeat(3, minmax(260px, 1fr));
+            margin-top: 14px;
+        }
+
+        @media (max-width: 1100px) {
+            .cards {
+                grid-template-columns: repeat(2, minmax(260px, 1fr));
+            }
+        }
+
+        @media (max-width: 720px) {
+            .cards {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .span-2 {
+            grid-column: span 2;
+        }
+
+        @media (max-width:1100px) {
+            .span-2 {
+                grid-column: 1 / -1;
+            }
+        }
+
+        .card {
+            position: relative;
+            background: var(--glass);
+            border-radius: 16px;
+            padding: 14px 14px 12px;
+            box-shadow: 0 0 0 1px rgba(255, 255, 255, .06) inset, 0 14px 32px rgba(0, 0, 0, .35);
+            overflow: hidden;
+        }
+
+        .card h3 {
+            margin: 2px 0 8px;
+            font-size: 18px
+        }
+
+        .card p {
+            color: var(--muted);
+            margin: 6px 0 0;
+            line-height: 1.55
+        }
+
+        .card ul {
+            margin: 0px 0px 0px 0px
+        }
+
+        .card li {
+            margin: 3px 6px 3px -6px;
+        }
+
+        /* Theme glows per drive */
+        .theme-d1 .card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 16px;
+            box-shadow: 0 0 28px 4px rgba(63, 81, 181, .22) inset
+        }
+
+        .theme-d2 .card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 16px;
+            box-shadow: 0 0 28px 4px rgba(76, 175, 80, .22) inset
+        }
+
+        .theme-d3 .card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 16px;
+            box-shadow: 0 0 28px 4px rgba(255, 152, 0, .22) inset
+        }
+
+        .theme-d4 .card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 16px;
+            box-shadow: 0 0 28px 4px rgba(255, 235, 59, .22) inset
+        }
+
+        .theme-d5 .card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 16px;
+            box-shadow: 0 0 28px 4px rgba(224, 64, 251, .22) inset
+        }
+
+        .theme-d6 .card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 16px;
+            box-shadow: 0 0 28px 4px rgba(141, 110, 99, .22) inset
+        }
+
+        .theme-d7 .card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 16px;
+            box-shadow: 0 0 28px 4px rgba(244, 67, 54, .22) inset
+        }
+
+        .theme-d8 .card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 16px;
+            box-shadow: 0 0 28px 4px rgba(66, 66, 66, .22) inset
+        }
+
+        /* Section headers chips */
+        .drv-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 800;
+            letter-spacing: .02em
+        }
+
+        .sw {
+            width: 32px;
+            height: 32px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, .3)
+        }
+
+        .sw.d1 {
+            background: var(--d1)
+        }
+
+        .sw.d2 {
+            background: var(--d2)
+        }
+
+        .sw.d3 {
+            background: var(--d3)
+        }
+
+        .sw.d4 {
+            background: var(--d4)
+        }
+
+        .sw.d5 {
+            background: var(--d5)
+        }
+
+        .sw.d6 {
+            background: var(--d6)
+        }
+
+        .sw.d7 {
+            background: var(--d7)
+        }
+
+        .sw.d8 {
+            background: var(--d8)
+        }
+
+        .inline-link {
+            color: var(--text);
+            text-decoration: underline
+        }
+
+        /* AMP cards */
+        .amp-grid {
+            display: grid;
+            gap: 16px;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        }
+
+        .amp .card::before {
+            display: none
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 700;
+            margin-bottom: 6px
+        }
+
+        .sw.auto {
+            background: var(--amp-auto)
+        }
+
+        .sw.mast {
+            background: var(--amp-mast)
+        }
+
+        .sw.purp {
+            background: var(--amp-purp)
+        }
+
+        /* Scenarios tabs */
+        .scen-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 10px 0 14px;
+        }
+
+        .scen-tabs button {
+            appearance: none;
+            border: 1px solid rgba(255, 255, 255, .08);
+            background: rgba(255, 255, 255, .05);
+            color: var(--text);
+            padding: 8px 12px;
+            border-radius: 999px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .scen-tabs button.active {
+            outline: 2px solid rgba(255, 255, 255, .25)
+        }
+
+        .scenario {
+            display: none
+        }
+
+        .scenario.active {
+            display: block
+        }
+
+        /* Scenario inner collapsibles: show “What's Observed” open; others collapsed by default */
+        details {
+            background: rgba(255, 255, 255, .04);
+            border: 1px solid rgba(255, 255, 255, .06);
+            border-radius: 12px;
+            padding: 8px 12px;
+            margin: 10px 0
+        }
+
+        summary {
+            cursor: pointer;
+            font-weight: 700
+        }
+
+        details[open] p,
+        details[open] ul {
+            color: var(--muted)
+        }
+
+        /* Utility */
+        .footnote {
+            color: var(--muted);
+            font-size: 13px
+        }
+
+        .spacer16 {
+            height: 16px
+        }
+
+        .anchor {
+            scroll-margin-top: 90px
+        }
+
+        .toplink {
+            position: fixed;
+            right: 16px;
+            bottom: 16px;
+            background: rgba(255, 255, 255, .07);
+            border: 1px solid rgba(255, 255, 255, .1);
+            color: var(--text);
+            padding: 8px 12px;
+            border-radius: 999px;
+            text-decoration: none
+        }
+
+        /* Card title icons per card type across all drive sections */
+        .block[class*="theme-d"] .card > h3 {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* neutralize any previous generic markers */
+        .block[class*="theme-d"] .card > h3::before {
+            content: none !important;
+        }
+
+        .card .hicon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            line-height: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="bg" aria-hidden="true"></div>
+    <a class="toplink" href="#toc">↑ Top</a>
+    <div class="wrap">
+
+        <!-- Header -->
+        <header class="page">
+            <div class="kicker">Motivation Drives Reference Guide</div>
+            <h1>A practical handbook for tech leads to diagnose motivation issues and shape better team, culture, and
+                work environments.</h1>
+        </header>
+
+        <!-- TOC -->
+        <nav id="toc" class="toc block toc-tree">
+            <h2>Table of Contents</h2>
+
+            <div class="toc-columns">
+                <!-- Col 1: Overview -->
+                <div class="toc-col">
+                    <div class="toc-h">Overview</div>
+                    <ul class="toc-list">
+                        <li class="toc-item"><a href="#howto"><span class="toc-pill">Guide</span> How to use this
+                                guide</a></li>
+                        <li class="toc-item"><a href="#legend"><span class="toc-pill">Legend</span> Drive legend</a>
+                        </li>
+                        <li class="toc-item"><a href="#quickcheck"><span class="toc-pill">Quick</span> Quick drive
+                                health check</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 2: Drives -->
+                <div class="toc-col">
+                    <div class="toc-h">Octalysis Drives</div>
+                    <ul class="toc-list">
+                        <li class="toc-item"><a href="#d1"><span class="toc-pill d1">D1</span> Epic Meaning &amp;
+                                Calling</a></li>
+                        <li class="toc-item"><a href="#d2"><span class="toc-pill d2">D2</span> Development &amp;
+                                Accomplishment</a></li>
+                        <li class="toc-item"><a href="#d3"><span class="toc-pill d3">D3</span> Empowerment of Creativity
+                                &amp; Feedback</a></li>
+                        <li class="toc-item"><a href="#d4"><span class="toc-pill d4">D4</span> Ownership &amp;
+                                Possession</a></li>
+                        <li class="toc-item"><a href="#d5"><span class="toc-pill d5">D5</span> Social Influence &amp;
+                                Relatedness</a></li>
+                        <li class="toc-item"><a href="#d6"><span class="toc-pill d6">D6</span> Scarcity &amp;
+                                Impatience</a></li>
+                        <li class="toc-item"><a href="#d7"><span class="toc-pill d7">D7</span> Unpredictability &amp;
+                                Curiosity</a></li>
+                        <li class="toc-item"><a href="#d8"><span class="toc-pill d8">D8</span> Loss &amp; Avoidance</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Col 3: Framework & Practice -->
+                <div class="toc-col">
+                    <div class="toc-h">Framework &amp; Practice</div>
+                    <ul class="toc-list">
+                        <li class="toc-item"><a href="#amp"><span class="toc-pill">AMP</span> Drive Book / AMP short
+                                version</a></li>
+                        <li class="toc-item"><a href="#mechanics"><span class="toc-pill">⚙</span> Mechanics of Drive
+                                Strengths (Push vs Pull)</a></li>
+                        <li class="toc-item"><a href="#examples"><span class="toc-pill">🧪</span> Mechanics in action
+                                &amp; Key Takeaways</a></li>
+                        <li class="toc-item"><a href="#scenarios"><span class="toc-pill">▦</span> Practical exercises
+                                and examples (Scenarios)</a></li>
+                        <li class="toc-item"><a href="#pitfalls"><span class="toc-pill">⚠</span> Pitfalls to Watch
+                                For</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- How to use -->
+        <section id="howto" class="block anchor">
+            <h2>How to use this guide</h2>
+            <div class="cards">
+                <div class="card span-2">
+                    <ul>
+                        <li>Scan the legend below so the shorthand makes sense during 1:1s and debriefs.</li>
+                        <li>For specific behaviour, pick the most likely drive(s) and skim the relevant page for
+                            suppressors, symptoms, and nudges.</li>
+                        <li>Use the 1:1 questions to validate your hypothesis before acting.</li>
+                        <li>Combine team mechanics and levers with systemic supports — don't rely on perks alone.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Legend -->
+        <section id="legend" class="block anchor">
+            <h2>Drive legend</h2>
+            <div class="legend">Based on Octalysis framework and “Drive” book (Pink)</div>
+            <div class="cards">
+
+                <div class="card span-2">
+                    <h3>Octalysis (with short codes)</h3>
+                    <ul>
+                        <li>D1 &dash; Epic Meaning &amp; Calling (EMC)</li>
+                        <li>D2 &dash; Development &amp; Accomplishment (DA)</li>
+                        <li>D3 &dash; Empowerment of Creativity &amp; Feedback (ECF)</li>
+                        <li>D4 &dash; Ownership &amp; Possession (OP)</li>
+                        <li>D5 &dash; Social Influence &amp; Relatedness (SIR)</li>
+                        <li>D6 &dash; Scarcity &amp; Impatience (SI)</li>
+                        <li>D7 &dash; Unpredictability &amp; Curiosity (UC)</li>
+                        <li>D8 &dash; Loss &amp; Avoidance (LA)</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>AMP</h3>
+                    <p>A = Autonomy, M = Mastery, P = Purpose</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick drive health check -->
+        <section id="quickcheck" class="block anchor">
+            <h2>Quick drive health check</h2>
+            <div class="cards">
+                <div class="card span-2">
+                    <ul>
+                        <li><strong>D1:</strong> Is the work meaningful and connected to the real world (users)?</li>
+                        <li><strong>D2:</strong> Are goals clear and progress visible?</li>
+                        <li><strong>D3:</strong> Is there space for “flow” and experimentation with fast [system] feedback and good skill↔difficulty balance?</li>
+                        <li><strong>D4:</strong> Is ownership clear with real authority?</li>
+                        <li><strong>D5:</strong> Do people feel belonging, inclusion and recognition?</li>
+                        <li><strong>D6:</strong> Is urgency ethical and bounded (not constantly high)?</li>
+                        <li><strong>D7:</strong> Is there novelty and exploration time (with guardrails like time limits, show-and-tell)?</li>
+                        <li><strong>D8:</strong> Is the environment blame free, and are safety nets in place so risk is tolerable?</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Drive 1 -->
+        <section id="d1" class="block theme-d1 anchor">
+            <h2 class="drv-chip"><span class="sw d1"></span>Drive 1: Epic Meaning &amp; Calling ✨🌍</h2>
+            <div class="cards">
+                <div class="card">
+                    <h3>Definition</h3>
+                    <p>The deep motivation that comes from believing your work matters beyond yourself—mission, ethics,
+                        societal impact, a story worth belonging to. Clear line from your effort to real-world outcomes.
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>What activates it</h3>
+                    <ul>
+                        <li>A clear, authentic product mission</li>
+                        <li>Real user stories</li>
+                        <li>Visible impact of shipped work: usage, outcomes, testimonials, support wins.</li>
+                        <li>Values alignment, decisions and trade-offs that match the stated mission</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>What suppresses it (team/culture/process)</h3>
+                    <ul>
+                        <li>Work framed only in terms of revenue or deadlines</li>
+                        <li>Too much politics</li>
+                        <li>Metrics-only culture</li>
+                        <li>Cynical leadership tone</li>
+                        <li>Mission statements that don't match decisions</li>
+                        <li>Work that feels exploitative or trivial</li>
+                        <li>No line-of-sight to users; backlog tasks with no context</li>
+                        <li>Lack of connection to user outcomes or societal impact</li>
+                        <li>Roadmaps that pivot with no “why” narration, no story, no context</li>
+                        <li>Repetitive backlog tasks with no visible story behind them</li>
+                        <li>Overusing hero narratives - especially to mask bad processes</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>Symptoms when suppressed</h3>
+                    <p>Detachment (“just a job”), low energy, no client touchpoints, reluctance to go the extra mile,
+                        value-based conflicts.</p>
+                </div>
+                <div class="card">
+                    <h3>Activities that may suffer</h3>
+                    <ul>
+                        <li>Talking to customers, cross-team initiatives, best-practice evangelism.</li>
+                        <li>Blog posts, user documentation, or any external docs that nobody reads (believed).</li>
+                        <li>Doing work disconnected from real user needs.</li>
+                        <li>Supporting legacy systems without context.</li>
+                        <li>Product evangelism</li>
+                        <li>Indifference to product usability and quality</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>Systemic supports</h3>
+                    <ul>
+                        <li>Quarterly mission &amp; vision reviews with product team(s)</li>
+                        <li>OKRs / Goals that include user/impact related outcomes</li>
+                        <li>Customer Experience and Discovery rituals and practices (customer calls, usability tests)
+                            with engineers present. (Using experience/adoption management platforms like Pendo)</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>1:1 questions direction</h3>
+                    <ul>
+                        <li>“When did our work feel most meaningful to you in the last quarter?”</li>
+                        <li>“Which user story sticks with you?”</li>
+                        <li>Do you feel like your work contributes to fulfilling our mission, vision, OKRs?</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>Anti-patterns</h3>
+                    <p>Purpose disconnected from reality or real product users. Hero narratives to cover bad processes.</p>
+                </div>
+                <div class="card">
+                    <h3>Signals/metrics</h3>
+                    <ul>
+                        <li># of customer touchpoints with engineers;</li>
+                        <li>mentions of user impact in retros.</li>
+                        <li>Quality of customer-facing systems, going the “extra mile”</li>
+                    </ul>
+                </div>
+                <div class="card span-2">
+                    <h3>Team mechanics &amp; levers</h3>
+                    <ul>
+                        <li>Tie each epic to a user impact narrative;</li>
+                        <li>open sessions with a 60-sec “who benefits” story</li>
+                        <li>Bring customers to demo &amp; invite engineers to join client demos or user feedback
+                            sessions.</li>
+                        <li>Share customer stories and testimonials regularly.</li>
+                        <li>Share thank-you notes and before/after screenshots.</li>
+                        <li>Use mission footers on tickets (why this matters).</li>
+                        <li>Frame features in terms of impact (“we're enabling this business to thrive”).</li>
+                        <li>Impact-based recognition (stories, before/after).</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Drive 2 -->
+        <section id="d2" class="block theme-d2 anchor">
+            <h2 class="drv-chip"><span class="sw d2"></span>Drive 2: Development &amp; Accomplishment 🏆🧱</h2>
+            <div class="cards">
+                <div class="card">
+                    <h3>Definition</h3>
+                    <p>Motivation that comes from achieving goals, striving for mastery, improving skills, and seeing
+                        tangible progress (like completing meaningful chunks of work).</p>
+                </div>
+                <div class="card">
+                    <h3>What activates it</h3>
+                    <p>Clear goals, short feedback loops, visible milestones, recognition of progress, value of the
+                        achievement as defined by the social environment</p>
+                </div>
+                <div class="card">
+                    <h3>What suppresses it (team/culture/process)</h3>
+                    <ul>
+                        <li>Endless projects with no clear milestones</li>
+                        <li>Vague acceptance criteria</li>
+                        <li>Lack of recognition - add value to achievements</li>
+                        <li>Constant firefighting.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>Symptoms when suppressed</h3>
+                    <p>procrastination, half-finished work, lowered learning and growth ambition</p>
+                </div>
+                <div class="card">
+                    <h3>Activities that suffer</h3>
+                    <p>Unit/integration tests, refactoring, CI/CD improvements, dependency upgrades.</p>
+                </div>
+
+                <div class="card">
+                    <h3>Systemic supports</h3>
+                    <p>DoD (Definition of Done) includes tests &amp; docs; release notes culture; credit also invisible
+                        type of work like refactoring. Learning &amp; development budget and practices.</p>
+                </div>
+                <div class="card">
+                    <h3>1:1 questions</h3>
+                    <ul>
+                        <li>“What recent win are you proud of that maybe no one noticed?”</li>
+                        <li>“Where is progress invisible?”</li>
+                        <li>“What achievements may make you proud?”</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>Anti-patterns</h3>
+                    <p>Only celebrating big launches; ignoring “under-the-hood” achievements.</p>
+                </div>
+                <div class="card">
+                    <h3>Signals/metrics</h3>
+                    <p>Cycle time trends; throughput of PRs; frequency of demos and new features bragging</p>
+                </div>
+                <div class="card span-2">
+                    <h3>Team mechanics &amp; levers</h3>
+                    <ul>
+                        <li>Skill ladders &amp; growth plans: clear public levelling ladders; quarterly self-assessment
+                            &amp; manager 1:1.</li>
+                        <li>Slice to MMFs: break initiatives into milestone-ready Minimal Marketable Features with
+                            Definition of Success - for example # of users used the feature.</li>
+                        <li>Progress radiators like visible burn-up, ageing-WIP boards.</li>
+                        <li>Quickly available progress charts: burn-up/burn-down, dashboards, release counters.</li>
+                        <li>Recognition of achievement: ship reviews, “personal bests”, company-wide shoutouts,
+                            lightweight badging or leaderboards.</li>
+                        <li>Maintain public changelogs of engineering improvements, non-engineering language</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Drive 3 -->
+        <section id="d3" class="block theme-d3 anchor">
+            <h2 class="drv-chip"><span class="sw d3"></span>Drive 3 &dash; Empowerment of Creativity &amp; Feedback 🎨🔁
+            </h2>
+            <div class="cards">
+                <div class="card">
+                    <h3>Definition</h3>
+                    <p>Motivation from creative work, like coding, design, experimenting, and other flow-type of
+                        activities, and getting tight system feedback (do to confuse with social praise).</p>
+                </div>
+                <div class="card">
+                    <h3>What activates it</h3>
+                    <p>Creative activities, fast CI, sandboxes, spikes, clear problem statements with freedom in
+                        solution.</p>
+                </div>
+                <div class="card">
+                    <h3>What suppresses it (team/culture/process)</h3>
+                    <p>Slow feedback like Long/fragile CI, punitive response to failed experiments, heavy change
+                        control, rigid templates, bureaucracy</p>
+                </div>
+                <div class="card">
+                    <h3>Symptoms when suppressed</h3>
+                    <p>Stagnation, lack of “inspiration”, avoidance of POCs, fear of proposing ideas, boredom, technical
+                        abilities do not correspond to the task - too-hard/too-easy</p>
+                </div>
+                <div class="card">
+                    <h3>Activities that suffer</h3>
+                    <p>Work feels like grinding, POCs, new tooling proposals, testing culture, CI/CD work, exploratory
+                        research</p>
+                </div>
+                <div class="card">
+                    <h3>Systemic supports</h3>
+                    <p>Distraction free environment, experimentation budget</p>
+                </div>
+                <div class="card">
+                    <h3>1:1 questions</h3>
+                    <p>“Where do you wish you could experiment more?” “What feedback loop is too slow?”</p>
+                </div>
+                <div class="card">
+                    <h3>Anti-patterns</h3>
+                    <p>Shaming failed spikes; conflating experimentation with recklessness.</p>
+                </div>
+                <div class="card">
+                    <h3>Signals/metrics</h3>
+                    <p>CI duration; # of spikes/POCs; lead time for change.</p>
+                </div>
+                <div class="card span-2">
+                    <h3>Team mechanics &amp; levers</h3>
+                    <ul>
+                        <li>Optimize daily work for <a class="inline-link"
+                                href="https://www.google.com/search?q=flow+state">Flow:</a> calibrate challenge to
+                            skill, tasks difficulty slightly above current ability.</li>
+                        <li>PR procedure as lightweight as possible, code reviews with fast turnaround, clear guidelines, fast feedback</li>
+                        <li>Create POCs, prototypes/spikes for new functionality; allocate 10% time for example</li>
+                        <li>Break work into clear milestones and short “win states” (DoD, definition of success).</li>
+                        <li>Tight feedback loops: CI/CD</li>
+                        <li>Quickly available build lights</li>
+                        <li>Skill ladders &amp; practice: pair/mob sessions, rotation for stretch tasks.</li>
+                        <li>Anti-grind rules: cap WIP, protect focus time, avoid vanity metrics.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Drive 4 -->
+        <section id="d4" class="block theme-d4 anchor">
+            <h2 class="drv-chip"><span class="sw d4"></span>Drive 4: Ownership &amp; Possession 🔑📦</h2>
+            <div class="cards">
+                <div class="card">
+                    <h3>Definition</h3>
+                    <p>Motivation from feeling that something belongs to you &dash; code, systems, ideas, decisions, outcomes
+                        &dash; and that you are responsible for it.</p>
+                </div>
+                <div class="card">
+                    <h3>What activates it</h3>
+                    <p>Clear ownership of work domains, decisions</p>
+                </div>
+                <div class="card">
+                    <h3>What suppresses it</h3>
+                    <p>Frequent team reshuffles, override of local decisions, communal code with no accountability.</p>
+                </div>
+                <div class="card">
+                    <h3>Symptoms</h3>
+                    <p>“Not my problem” attitudes, slow reviews, minimal initiative, defensive behaviour.</p>
+                </div>
+                <div class="card">
+                    <h3>Activities that suffer</h3>
+                    <p>Code reviews, maintenance, architecture docs, best-practice adoption.</p>
+                </div>
+                <div class="card">
+                    <h3>Systemic supports</h3>
+                    <p>Ownership in on-call and backlog; platform budgets for maintenance.</p>
+                </div>
+                <div class="card">
+                    <h3>1:1 questions</h3>
+                    <p>“What part of the system do you feel you truly own?” “Where do you feel powerless?”</p>
+                </div>
+                <div class="card">
+                    <h3>Anti-patterns</h3>
+                    <p>Forced stewardship especially of low quality or legacy systems; Ownership without authority;
+                        authority without accountability.</p>
+                </div>
+                <div class="card">
+                    <h3>Signals/metrics</h3>
+                    <p>Review latency by component; orphaned modules; maintenance debt.</p>
+                </div>
+                <div class="card span-2">
+                    <h3>Team mechanics &amp; levers</h3>
+                    <ul>
+                        <li>Clear ownership maps: RACI, on-call rotations, common code ownership rules.</li>
+                        <li>Visible asset registries: repos/services, SLAs, runbooks, dashboards.</li>
+                        <li>Repair incentives: budget/time for tech debt &amp; refactors in owned areas.</li>
+                        <li>Earned privileges: decision &amp; access rights.</li>
+                        <li>Succession: pairing, docs, and “stewardship handover” to reduce bus factor.</li>
+                        <li>Recognition: highlight maintainers; periodic ownership reviews.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Drive 5 -->
+        <section id="d5" class="block theme-d5 anchor">
+            <h2 class="drv-chip"><span class="sw d5"></span>Drive 5 &dash; Social Influence &amp; Relatedness🤝🙌</h2>
+            <div class="cards">
+                <div class="card">
+                    <h3>Definition</h3>
+                    <p>Motivation from belonging, peer respect, collaboration, healthy competition, and social proof.
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>What activates it</h3>
+                    <p>Psychological safety, peer kudos, pairing/mentoring, inclusive rituals.</p>
+                </div>
+                <div class="card">
+                    <h3>What suppresses it</h3>
+                    <p>Toxic (peer) competition, isolation (remote work without connection), management “favorites”,
+                        blaming/shaming culture.</p>
+                </div>
+                <div class="card">
+                    <h3>Symptoms</h3>
+                    <p>Silence in meetings, camera-off disengagement, reluctance to ask for help, gossip.</p>
+                </div>
+                <div class="card">
+                    <h3>Activities that suffer</h3>
+                    <p>Pairing, mentoring, team meetings, cross-team work, knowledge sharing.</p>
+                </div>
+                <div class="card">
+                    <h3>Systemic supports</h3>
+                    <p>Onboarding buddies; communities of practice; inclusive meeting norms, establish disagree &amp;
+                        commit; model vulnerability; protect quiet voices.</p>
+                </div>
+                <div class="card">
+                    <h3>1:1 questions</h3>
+                    <p>“Who energises you to work with?” “When did you feel most included/excluded recently?”</p>
+                </div>
+                <div class="card">
+                    <h3>Anti-patterns</h3>
+                    <p>“Brilliant jerk” tolerance; reward hoarding; performative “team-building”.</p>
+                </div>
+                <div class="card">
+                    <h3>Signals/metrics</h3>
+                    <p>Participation rates; peer recognition volume; onboarding time-to-productivity.</p>
+                </div>
+                <div class="card span-2">
+                    <h3>Team mechanics &amp; levers</h3>
+                    <ul>
+                        <li>Make excellence visible: demos, internal-media showcases, internal talks.</li>
+                        <li>Peer recognition: kudos channels, thank-you notes, peer bonuses.</li>
+                        <li>Mentoring structures: guides/coaches/buddies, guilds/chapters, pair/mob programming.</li>
+                        <li>Social proof for change: champions, case studies, adoption maps.</li>
+                        <li>Norms &amp; rituals: ceremonies—model from leads.</li>
+                        <li>Inclusive practices: rotate speaking, amplify quiet voices (in meetings/rituals).</li>
+                        <li>Team-building activities.</li>
+                        <li>Guardrails: avoid shaming or any psychological safety harming norms; measure collaboration
+                            outcomes; careful inter-team competition.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Drive 6 -->
+        <section id="d6" class="block theme-d6 anchor">
+            <h2 class="drv-chip"><span class="sw d6"></span>Drive 6: Scarcity &amp; Impatience ⏳⏱</h2>
+            <div class="cards">
+                <div class="card">
+                    <h3>Definition</h3>
+                    <p>Motivation created by urgency, exclusivity, deadlines, or limited opportunities. Powerful but
+                        short-term.</p>
+                </div>
+                <div class="card">
+                    <h3>What activates it</h3>
+                    <p>Time-boxes, limited slots, launch windows, leaderboard challenges.</p>
+                </div>
+                <div class="card">
+                    <h3>What suppresses it (i.e., when it loses effect)</h3>
+                    <p>Perpetual crunch, fake deadlines, always-on emergencies (leading to de-sensitisation).</p>
+                </div>
+                <div class="card">
+                    <h3>Symptoms of overuse</h3>
+                    <p>Burnouts, cynicism about deadlines, cutting corners, quality debt.</p>
+                </div>
+                <div class="card">
+                    <h3>Activities affected (when misused)</h3>
+                    <p>Bug fixing, tech support quality, perf testing—quality collapses under chronic urgency.</p>
+                </div>
+                <div class="card">
+                    <h3>Systemic supports</h3>
+                    <p>Capacity planning; on-call shifts; incident budgets.</p>
+                </div>
+                <div class="card">
+                    <h3>1:1 questions</h3>
+                    <p>“Which deadline felt meaningful vs manufactured?” “Where is urgency hurting quality?”</p>
+                </div>
+                <div class="card">
+                    <h3>Anti-patterns</h3>
+                    <p>Permanent war-room; prestige via overwork.</p>
+                </div>
+                <div class="card">
+                    <h3>Signals/metrics</h3>
+                    <p>Change fail rate; incident recurrence; PTO usage.</p>
+                </div>
+                <div class="card span-2">
+                    <h3>Team mechanics &amp; levers</h3>
+                    <ul>
+                        <li>Legitimate scarcity: windowed / release trains, respect capacity by meticulous
+                            prioritization.</li>
+                        <li>Timeboxing: sprints, spikes, decision deadlines, release deadlines.</li>
+                        <li>Access tiers: early-access groups, feature flags by cohort</li>
+                        <li>Build legitimate sense of urgency - (business-)competition monitoring, track total cost and
+                            time-to-market, Cost of Delay (CoD)</li>
+                        <li>Queues &amp; reservations: ticket SLAs, signup caps.</li>
+                        <li>Transparency: team capacity metrics, publish why limits exist; never simulate fake scarcity
+                        </li>
+                        <li>Swap fear-based urgency with meaning + empowerment where possible</li>
+                        <li>Guardrails: monitor stress, rotate on-call; avoid chronic urgency, avoid prolonged war-room
+                            modes</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Drive 7 -->
+        <section id="d7" class="block theme-d7 anchor">
+            <h2 class="drv-chip"><span class="sw d7"></span>Drive 7: Unpredictability &amp; Curiosity 🎁🎲</h2>
+            <div class="cards">
+                <div class="card">
+                    <h3>Definition</h3>
+                    <p>Motivation from novelty, surprise, exploration, and learning.</p>
+                </div>
+                <div class="card">
+                    <h3>What activates it</h3>
+                    <p>Novelty, hackdays/atons, trying new tools, exploratory research, randomness</p>
+                </div>
+                <div class="card">
+                    <h3>What suppresses it</h3>
+                    <p>Rigid routines, no space for play, anti-experiment culture.</p>
+                </div>
+                <div class="card">
+                    <h3>Symptoms</h3>
+                    <p>Boredom, low initiative, resistance to process, “groundhog day” sprints.</p>
+                </div>
+                <div class="card">
+                    <h3>Activities that suffer</h3>
+                    <p>POCs, research spikes, innovation proposals.</p>
+                </div>
+                <div class="card">
+                    <h3>Systemic supports</h3>
+                    <p>Innovation budget; rotation program; internal conference.</p>
+                </div>
+                <div class="card">
+                    <h3>1:1 questions</h3>
+                    <p>“What's something new you wish we tried?” “Which part of the stack are you curious about?”</p>
+                </div>
+                <div class="card">
+                    <h3>Anti-patterns</h3>
+                    <p>Novelty for novelty's sake; starting without finishing.</p>
+                </div>
+                <div class="card">
+                    <h3>Signals/metrics</h3>
+                    <p># of experiments; internal talks; diversity of tools used.</p>
+                </div>
+                <div class="card span-2">
+                    <h3>Team mechanics &amp; levers</h3>
+                    <ul>
+                        <li>Time-boxed discovery sprints/spikes; demo what you learned.</li>
+                        <li>Randomised pairing/review partners to mix perspectives.</li>
+                        <li>Cross-team demos/showcases - curious “how they do it”.</li>
+                        <li>Hackathons of any sorts</li>
+                        <li>Exploration time quota (5&dash;20%) - new features or tools, with show-and-tell at the end</li>
+                        <li>Rotation of domains of work</li>
+                        <li>Novelty in usual ceremonies - Invite demos of experiments; archive learnings</li>
+                        <li>Guardrails: explicit objectives, limit “in-progress” state</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Drive 8 -->
+        <section id="d8" class="block theme-d8 anchor">
+            <h2 class="drv-chip"><span class="sw d8"></span>Drive 8: Loss &amp; Avoidance 🚧🚦</h2>
+            <div class="cards">
+                <div class="card">
+                    <h3>Definition</h3>
+                    <p>Motivation to avoid risk, blame, loss of status, or harm. Necessary for safety; harmful when
+                        dominant.</p>
+                </div>
+                <div class="card">
+                    <h3>What activates it (in a healthy way)</h3>
+                    <p>Clear guardrails, rollback plans, incident drills, psychological safety.</p>
+                </div>
+                <div class="card">
+                    <h3>When it acts like a strong suppressor of all motivation</h3>
+                    <p>Blame or shame culture, high stakes with no safety nets, punishments for not achieving stretch
+                        goals</p>
+                </div>
+                <div class="card">
+                    <h3>Symptoms</h3>
+                    <p>Analysis paralysis, fear of deployment, defensive code reviews, bad vibe and silence in retros.</p>
+                </div>
+                <div class="card">
+                    <h3>Activities that suffer</h3>
+                    <p>On-call, bug-fixing, reviews, refactors, cross-team changes.</p>
+                </div>
+                <div class="card">
+                    <h3>Systemic supports</h3>
+                    <p>Blameless culture, Incident review rituals; error budgets; safety checklists.</p>
+                </div>
+                <div class="card">
+                    <h3>1:1 questions</h3>
+                    <p>“What feels risky right now?” “Where would a safety net help you move faster?”</p>
+                </div>
+                <div class="card">
+                    <h3>Anti-patterns</h3>
+                    <p>Public shaming; hero worship after outages; hiding incidents, pay tied to OKRs (stretch goals).
+                         Use PIPs (personal improvement plan) only as a pre-fire step.</p>
+                </div>
+                <div class="card">
+                    <h3>Signals/metrics</h3>
+                    <p>Time-to-ack/resolve; postmortem quality; error rates.</p>
+                </div>
+                <div class="card span-2">
+                    <h3>Team mechanics &amp; levers</h3>
+                    <ul>
+                        <li>Documented war-mode routine.</li>
+                        <li>Clear escalation paths.</li>
+                        <li>Blameless pre-mortems/post-mortems with priority actions.</li>
+                        <li>Runbooks, backups (regularly tested), rollback drills, “fire” drills.</li>
+                        <li>Circuit breakers &amp; “blast-radius” limits for changes.</li>
+                        <li>Healthy on-call: fair rotation, load metrics.</li>
+                        <li>Guardrails: Track time/costs spent in safeguarding, avoid “feature freezes”</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- AMP -->
+        <section id="amp" class="block anchor">
+            <h2>Drive Book / AMP short version</h2>
+            <div class="amp-grid">
+                <div class="card amp">
+                    <div class="badge"><span class="sw auto"></span>AMP &dash; Autonomy (A)</div>
+                    <p><strong>Definition:</strong> Desire to have agency over one's work—methods, tools, and
+                        priorities.</p>
+                    <p><strong>Activators:</strong> Choice in approach; decision rights; flexible hours; trusted async
+                        workflows.</p>
+                    <p><strong>Suppressors:</strong> Micromanagement; rigid rules; approvals for every change; top-down
+                        tasking without context.</p>
+                    <p><strong>Symptoms:</strong> Passive compliance, minimal initiative, resentment, slow problem
+                        escalation.</p>
+                    <p><strong>Activities that suffer:</strong> Design/architecture, tooling proposals, pairing,
+                        cross-team work.</p>
+                    <p><strong>Leadership nudges:</strong> Define guardrails not gates; delegate decisions explicitly;
+                        publish decision logs; ask for proposals instead of prescribing solutions.</p>
+                    <p><strong>Maps to Octalysis:</strong> D3 (ECF), D4 (OP), D7 (UC) - free to be curious.</p>
+                    <p><strong>1:1 questions:</strong> “Where do you want more “say”?”; “Which rules limit or slow you
+                        down the most?”</p>
+                </div>
+                <div class="card amp">
+                    <div class="badge"><span class="sw mast"></span>AMP &dash; Mastery (M)</div>
+                    <p><strong>Definition:</strong> The urge to get better at things that matter—skills, craft,
+                        problem-solving.</p>
+                    <p><strong>Activators:</strong> Stretch tasks with support; feedback loops; mentorship; time for
+                        learning.</p>
+                    <p><strong>Suppressors:</strong> Repetition, no feedback, no learning time, fear of failure.</p>
+                    <p><strong>Symptoms:</strong> Stagnation, quality drift, low pride in work, resistance to reviews.
+                    </p>
+                    <p><strong>Activities that suffer:</strong> Tests, refactoring, performance work, knowledge sharing.
+                    </p>
+                    <p><strong>Leadership nudges:</strong> Personal growth plans; pair with experts; internal tech
+                        talks; explicit time for learning.</p>
+                    <p><strong>Maps to Octalysis:</strong> D2 (DA), D3 (ECF), sometimes D5 (SIR) via mentorship.</p>
+                    <p><strong>1:1 questions:</strong> “What skill are you hungry to improve?” “Where do you get the
+                        best feedback on your craft?”</p>
+                </div>
+                <div class="card amp">
+                    <div class="badge"><span class="sw purp"></span>AMP &dash; Purpose (P)</div>
+                    <p><strong>Definition:</strong> Desire to be part of something larger and meaningful; to see one's
+                        work matter.</p>
+                    <p><strong>Activators:</strong> User contact; outcome stories; mission narrative; ethical alignment.
+                    </p>
+                    <p><strong>Suppressors:</strong> Feature factory mentality; revenue-only framing; opaque
+                        decision-making.</p>
+                    <p><strong>Symptoms:</strong> Cynicism, disengagement, minimal initiative, quicker turnover intent.
+                    </p>
+                    <p><strong>Activities that suffer:</strong> Customer interactions, documentation, cross-team
+                        initiatives, culture work.</p>
+                    <p><strong>Leadership nudges:</strong> Start epics with who benefits; invite customers to demos;
+                        publish “impact posts”; align work with values.</p>
+                    <p><strong>Links to Octalysis:</strong> D1 (EMC), D5 (SIR), sometimes D8 (LA) when ethics and safety
+                        are key.</p>
+                    <p><strong>1:1 questions:</strong> “When did your work last feel meaningful?” “Which users do you
+                        think about when coding?”</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mechanics -->
+        <section id="mechanics" class="block anchor">
+            <h2>⚙ Mechanics of Drive Strengths (Push vs Pull)</h2>
+            <div class="cards">
+                <div class="card">
+                    <p>Drives don't just “exist,” they exert force within us. Each drive creates a motivational vector
+                        that can be strong or weak depending on:</p>
+                    <ul>
+                        <li>Number of drives engaged simultaneously - the more drives - more motivational strength</li>
+                        <li>Depth of activation (surface vs profound) - this also depends on personal values, beliefs,
+                            personality and other factors. See <a class="inline-link"
+                                href="https://review.leading-brains.com/carrots-sticks/">Of Carrots and Sticks</a></li>
+                    </ul>
+                    <p>Balance between White Hat (uplifting) vs Black Hat (urgent, stressful) - too much black hat
+                        activation can diminish motivation or turn to obsession</p>
+                    <ul>
+                        <li>Friction factors - each drive can also exert friction - negative motivation for example -
+                            related to ethics, cost, risk, skill needed, access, etc.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>Positive synergy</h3>
+                    <p>When multiple drives align, motivation skyrockets (e.g. Epic Meaning + Social Influence +
+                        Accomplishment = movements like open source).</p>
+                </div>
+                <div class="card">
+                    <h3>Negative drag</h3>
+                    <p>When Loss/Avoidance (D8) or Scarcity (D6) outweigh, they suppress action—even if other drives are
+                        strong.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Examples & Key Takeaways -->
+        <section id="examples" class="block anchor">
+            <h2>Mechanics in action</h2>
+            <div class="cards">
+                <div class="card">
+                    <h3>🧱 Example 1: LEGO vs <a class="inline-link"
+                            href="https://kids.guinnessworldrecords.com/news/2025/9/this-collection-of-lego-minifigures-is-so-huge-it-cant-fit-in-the-owners-house">Giant
+                            LEGO</a> (for a higher cause campaign for example)</h3>
+                    <p><strong>Building LEGO at home</strong></p>
+                    <ul>
+                        <li>D3 (Creativity), D7 (Curiosity), D4 (Ownership of “my set”).</li>
+                        <li>Low barrier, high flow → accessible to millions.</li>
+                    </ul>
+                    <p><strong>Building a giant LEGO structure for a cause</strong></p>
+                    <ul>
+                        <li>Adds D1 (Epic Meaning), D2 (Achievement), D5 (Social), even D6 (Scarcity—“one-time event”).
+                        </li>
+                        <li>BUT: D8 (Loss/Avoidance) looms large → cost, risk, time → prevents most people from acting.
+                        </li>
+                        <li>Net result: only few people do it, but those who do are deeply motivated.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>🌱 Example 2: Contributing to Open Source</h3>
+                    <p><strong>Drives engaged:</strong></p>
+                    <ul>
+                        <li>D1 (Epic Meaning—helping the community)</li>
+                        <li>D2 (Achievement—GitHub stars, merges)</li>
+                        <li>D3 (Creativity—solving hard problems)</li>
+                        <li>D5 (Social Influence—recognition by peers)</li>
+                    </ul>
+                    <p><strong>Friction / Demotivation:</strong></p>
+                    <ul>
+                        <li>D8 (Fear of rejection, exposure of “bad” code)</li>
+                        <li>D6 (Time scarcity—competing with job, family)</li>
+                    </ul>
+                    <p><strong>Result:</strong> Only a fraction of developers consistently contribute, even though many
+                        would like to.</p>
+                </div>
+                <div class="card">
+                    <h3>🎮 Example 3: Playing a Video Game vs Building One</h3>
+                    <p><strong>Playing:</strong></p>
+                    <ul>
+                        <li>D7 (Unpredictability), D3 (Creativity &amp; Feedback), D2 (Accomplishment), D5 (Social
+                            multiplayer).</li>
+                        <li>D8 (Loss) causes friction if cost of playing the game is high</li>
+                        <li>Easy access, instant gratification.</li>
+                    </ul>
+                    <p><strong>Making a game:</strong></p>
+                    <ul>
+                        <li>Adds D1 (Meaning), D4 (Ownership), D2 (Mastery).</li>
+                        <li>BUT: D8 (High risk of failure, sunk cost) and D6 (limited time/resources) → big deterrent.
+                        </li>
+                    </ul>
+                    <p>Thus, millions play games, but relatively few build them.</p>
+                </div>
+                <div class="card">
+                    <h3>📝 Example 4: Writing a Blog Post vs Publishing a Book</h3>
+                    <p><strong>Blog Post:</strong></p>
+                    <ul>
+                        <li>D3 (Creativity), D2 (Quick accomplishment), D5 (Sharing with peers).</li>
+                        <li>Low D8 risk.</li>
+                    </ul>
+                    <p><strong>Book:</strong></p>
+                    <ul>
+                        <li>Adds D1 (Legacy, impact), D4 (Ownership), D2 (Major milestone).</li>
+                        <li>But D8 (fear of failure, wasted years, criticism) + D6 (massive time need) = steep drop-off
+                            in participants.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>🎤 Example 5: Giving a Short Talk vs Organising a Conference or Training</h3>
+                    <p><strong>Short Talk at Meetup:</strong></p>
+                    <ul>
+                        <li>D2 (achievement), D5 (social recognition), D3 (creativity).</li>
+                        <li>Manageable D8 risk.</li>
+                    </ul>
+                    <p><strong>Conference Organizer:</strong></p>
+                    <ul>
+                        <li>Adds D1 (meaning, impact on community), D4 (ownership), D2 (huge accomplishment).</li>
+                        <li>But D8 (risk of failure, financial loss, stress) is massive → very few volunteer.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>🔑 Key Takeaways</h3>
+                    <ul>
+                        <li>The strength of a drive = pull minus friction.</li>
+                        <li>When multiple White Hat/Intrinsic drives align, motivation is strong—but heavy Black Hat
+                            (loss, risk, scarcity) can suppress even powerful pulls.</li>
+                        <li>Leaders should watch where a team member is “stuck”: often it's not lack of meaning or
+                            creativity, but fear of failure, risk, or cost (D8). Removing friction can unleash
+                            suppressed drives.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Scenarios -->
+        <section id="scenarios" class="block anchor">
+            <h2>Practical exercises and examples</h2>
+
+            <!-- Scenario tabs -->
+            <div class="scen-tabs">
+                <button data-target="sc1" class="active">📘 Scenario 1: “The Reluctant Code Reviewer”</button>
+                <button data-target="sc2">📘 Scenario 2: “The Feature Hoarder”</button>
+                <button data-target="sc3">📘 Scenario 3: “The Invisible New Joiner”</button>
+                <button data-target="sc4">📘 Scenario 4: “The Burned-Out Hero”</button>
+                <button data-target="sc5">📘 Scenario 5: “The Anti-Process Voice”</button>
+            </div>
+
+            <!-- Scenario 1 -->
+            <div id="sc1" class="scenario active">
+                <div class="card">
+                    <h3>📘 Scenario 1: “The Reluctant Code Reviewer”</h3>
+                    <details open>
+                        <summary>What's Observed</summary>
+                        <p>Alex, a senior engineer, consistently delays reviewing teammates' merge requests—sometimes
+                            for days—despite being proactive on their own tickets.</p>
+                    </details>
+                    <details>
+                        <summary>Motivation Analysis:</summary>
+                        <ul>
+                            <li>Drive: Autonomy / Mastery</li>
+                            <li>Octalysis: Loss &amp; Avoidance (fear of conflict or being wrong), Ownership (not seeing
+                                others' code as “theirs”)</li>
+                        </ul>
+                    </details>
+                    <details>
+                        <summary>Possible Root Causes:</summary>
+                        <ul>
+                            <li>They may not feel ownership over team code quality.</li>
+                            <li>May fear judgment or lack confidence in review authority.</li>
+                            <li>May be avoiding interpersonal tension or unclear expectations.</li>
+                        </ul>
+                    </details>
+                    <details>
+                        <summary>Nudges:</summary>
+                        <ul>
+                            <li>Frame code review as a core area of team mastery.</li>
+                            <li>Create a shared team norm or checklist to reduce friction.</li>
+                            <li>Pair on reviews with juniors to foster ownership and leadership mindset.</li>
+                        </ul>
+                    </details>
+                </div>
+            </div>
+
+            <!-- Scenario 2 -->
+            <div id="sc2" class="scenario">
+                <div class="card">
+                    <h3>📘 Scenario 2: “The Feature Hoarder”</h3>
+                    <details open>
+                        <summary>Whats Observed</summary>
+                        <p>Dani always volunteers for high-visibility features and new technologies, but avoids writing
+                            documentation or supporting junior devs.</p>
+                    </details>
+                    <details>
+                        <summary>Motivation Analysis</summary>
+                        <ul>
+                            <li>Drive: Mastery / Purpose (selectively)</li>
+                            <li>Octalysis: Empowerment of Creativity &amp; Feedback, Status, Scarcity</li>
+                        </ul>
+                    </details>
+                    <details>
+                        <summary>Possible Root Causes</summary>
+                        <ul>
+                            <li>Craves growth and public accomplishment.</li>
+                            <li>Sees mentoring and documentation as low-status or unrewarding.</li>
+                            <li>May not understand how those activities contribute to team goals.</li>
+                        </ul>
+                    </details>
+                    <details>
+                        <summary>Nudges</summary>
+                        <ul>
+                            <li>Reframe support activities as mastery-building (e.g. “the best engineers document what
+                                they learn”).</li>
+                            <li>Create rituals to celebrate those who support others.</li>
+                            <li>Rotate roles with visibility to balance recognition.</li>
+                        </ul>
+                    </details>
+                </div>
+            </div>
+
+            <!-- Scenario 3 -->
+            <div id="sc3" class="scenario">
+                <div class="card">
+                    <h3>📘 Scenario 3: “The Invisible New Joiner”</h3>
+                    <details open>
+                        <summary>What's Observed</summary>
+                        <p>Three weeks in, Maria hasn't spoken in retros or team planning. She delivers quality code,
+                            but rarely contributes ideas or concerns.</p>
+                    </details>
+                    <details>
+                        <summary>Motivation Analysis</summary>
+                        <ul>
+                            <li>Drive: Autonomy / Relatedness</li>
+                            <li>Octalysis: Unpredictability (new context), Avoidance, Social Influence</li>
+                        </ul>
+                    </details>
+                    <details>
+                        <summary>Possible Root Causes</summary>
+                        <ul>
+                            <li>Social safety is low, or unclear expectations.</li>
+                            <li>Uncertain whether her input is valued.</li>
+                            <li>May come from a culture where junior input wasn't welcome.</li>
+                        </ul>
+                    </details>
+                    <details>
+                        <summary>Nudges</summary>
+                        <ul>
+                            <li>Assign a buddy who actively invites her input.</li>
+                            <li>Use async channels (e.g., Slack threads) to lower the pressure of a meeting</li>
+                            <li>Ask for suggestions before meetings.</li>
+                        </ul>
+                    </details>
+                </div>
+            </div>
+
+            <!-- Scenario 4 -->
+            <div id="sc4" class="scenario">
+                <div class="card">
+                    <h3>📘 Scenario 4: “The Burned-Out Hero”</h3>
+                    <details open>
+                        <summary>What's Observed</summary>
+                        <p>Petar works long hours, fixes production issues alone, and rarely takes PTO. Recently, he's
+                            become irritable and withdrawn in meetings.</p>
+                    </details>
+                    <details>
+                        <summary>Motivation Analysis</summary>
+                        <ul>
+                            <li>Drive: Purpose / Mastery → drifting to Loss Avoidance</li>
+                            <li>Octalysis: Ownership &amp; Possession, Development &amp; Accomplishment → Scarcity,
+                                Avoidance</li>
+                        </ul>
+                    </details>
+                    <details>
+                        <summary>Possible Root Causes</summary>
+                        <ul>
+                            <li>Feels indispensable or overly responsible.</li>
+                            <li>May be trapped in “if I don't do it, it won't get done right” mindset.</li>
+                            <li>Rewards (praise, status) might have reinforced unhealthy patterns.</li>
+                        </ul>
+                    </details>
+                    <details>
+                        <summary>Nudges</summary>
+                        <ul>
+                            <li>Create backup systems or rotate on-call to reduce pressure.</li>
+                            <li>Have a direct 1:1 to validate effort and flag sustainability.</li>
+                            <li>Share team health metrics to frame overwork as a risk.</li>
+                            <li>Ask teammates to chat with him and possibly neutralize the “it won't get done right”
+                                thinking</li>
+                        </ul>
+                    </details>
+                </div>
+            </div>
+
+            <!-- Scenario 5 -->
+            <div id="sc5" class="scenario">
+                <div class="card">
+                    <h3>📘 Scenario 5: “The Anti-Process Voice”</h3>
+                    <details open>
+                        <summary>Observed</summary>
+                        <p>Mitko pushes back on every new tool or process (new sprint template, OKRs, even retros).
+                            Often says things like “this is just bureaucracy.”</p>
+                    </details>
+                    <details>
+                        <summary>Motivation Analysis</summary>
+                        <ul>
+                            <li>Drive: Autonomy</li>
+                            <li>Octalysis: Empowerment, Scarcity (time), Unpredictability</li>
+                        </ul>
+                    </details>
+                    <details>
+                        <summary>Possible Root Causes</summary>
+                        <ul>
+                            <li>Sees top-down changes as a threat to autonomy.</li>
+                            <li>May have prior experience with ineffective or shallow processes.</li>
+                            <li>May feel excluded from the design of the changes.</li>
+                        </ul>
+                    </details>
+                    <details>
+                        <summary>Nudges</summary>
+                        <ul>
+                            <li>Involve them early in shaping processes—turn them into a co-owner.</li>
+                            <li>Ask: “What's the minimal version of this that would work for us?”.</li>
+                            <li>Show how the change increases—not reduces—team autonomy or mastery.</li>
+                        </ul>
+                    </details>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Pitfalls -->
+        <section id="pitfalls" class="block anchor">
+            <h2>⚠ Pitfalls to Watch For When Using the Framework</h2>
+            <div class="cards">
+                <div class="card">
+                    <h3>Pitfall</h3>
+                    <p>Applying this guide in “one-size-fits-all” manner</p>
+                    <h3>Mitigation</h3>
+                    <p>People&#39;s motivation is not a constant and depends heavily on many factors &ndash; like stage in life, current situation and
+                    context &ndash; so leaders should approach it all individually and be adaptive</p>
+                </div>
+                <div class="card">
+                    <h3>Pitfall</h3>
+                    <p>Over&ndash;psychologising behaviour</p>
+                    <h3>Mitigation</h3>
+                    <p>Anchor in observable facts and don't assume internal state—frame everything as hypotheses and
+                        test them</p>
+                </div>
+                <div class="card">
+                    <h3>Pitfall</h3>
+                    <p>Binary thinking ("they&#39;re either motivated or not")</p>
+                    <h3>Mitigation</h3>
+                    <p>Note that multiple drives are always at play; also motivation ≠ happiness or comfort</p>
+                </div>
+                <div class="card">
+                    <h3>Pitfall</h3>
+                    <p>Jumping straight to incentives</p>
+                    <h3>Mitigation</h3>
+                    <p>Nudge toward shaping context, not just adding carrots - always remember the scientifically proven
+                        <a class="inline-link"
+                            href="https://www.google.com/search?q=the+7+deadly+flaws+of+carrots+and+sticks">7 deadly
+                            flaws of carrots and sticks</a> from the book Drive</p>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        // Scenario tabs: only one visible at a time
+        const tabBtns = document.querySelectorAll('.scen-tabs button');
+        const scenarios = document.querySelectorAll('.scenario');
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                tabBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const tgt = btn.getAttribute('data-target');
+                scenarios.forEach(s => s.classList.toggle('active', s.id === tgt));
+                // scroll into view on change
+                document.getElementById(tgt).scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+    </script>
+    <script>
+        // Set default theme
+        document.body.dataset.theme = 'base';
+
+        // Observe each drive section and switch background tint
+        const driveIds = ['d1', 'd2', 'd3', 'd4', 'd5', 'd6', 'd7', 'd8'];
+        const sections = driveIds.map(id => document.getElementById(id)).filter(Boolean);
+
+        const visible = new Map(); // id -> intersection ratio
+
+        const updateTheme = () => {
+            // Pick the most visible drive; if none, use base
+            let topId = null, topRatio = 0;
+            visible.forEach((ratio, id) => {
+                if (ratio > topRatio) { topRatio = ratio; topId = id; }
+            });
+            document.body.dataset.theme = topId || 'base';
+        };
+
+        const io = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const id = entry.target.id;
+                if (entry.isIntersecting) {
+                    visible.set(id, entry.intersectionRatio);
+                } else {
+                    visible.delete(id);
+                }
+            });
+            updateTheme();
+        }, {
+            // Trigger when a good chunk of the section is on screen
+            threshold: [0.2, 0.35, 0.5, 0.65, 0.8],
+            rootMargin: '-10% 0% -10% 0%'
+        });
+
+        sections.forEach(sec => io.observe(sec));
+    </script>
+    <script>
+      // Add card-specific emoji before titles in drive sections (D1-D8)
+      (function(){
+        const sections = document.querySelectorAll('.block.theme-d1, .block.theme-d2, .block.theme-d3, .block.theme-d4, .block.theme-d5, .block.theme-d6, .block.theme-d7, .block.theme-d8');
+        function pickEmoji(text){
+          const t = (text||'').trim().toLowerCase();
+          if(t.includes('definition')) return '📖';
+          if(t.includes('activate') && t.includes('healthy')) return '🌱';
+          if(t.includes('activate')) return '⚡';
+          if(t.includes('suppress')) return '🚫';
+          if(t.includes('symptom')) return '🩺';
+          if((t.includes('activities')||t.includes('activity')) && (t.includes('suffer')||t.includes('affected'))) return '📉';
+          if((t.includes('systemic') && t.includes('support')) || t.includes('supports')) return '🛡️';
+          if(t.includes('1:1') || t.includes('questions')) return '💬';
+          if(t.includes('anti-pattern')) return '⚠️';
+          if(t.includes('signals') || t.includes('metrics')) return '📊';
+          if(t.includes('team mechanics') || t.includes('levers')) return '🧰';
+          return '🗂️';
+        }
+        sections.forEach(sec=>{
+          sec.querySelectorAll('.card > h3').forEach(h=>{
+            if(h.querySelector('.hicon')) return; // avoid duplicates on re-run
+            const em = pickEmoji(h.textContent||'');
+            const span = document.createElement('span');
+            span.className = 'hicon';
+            span.textContent = em;
+            h.prepend(span);
+          });
+        });
+      })();
+    </script>
+</body>
+
+</html>

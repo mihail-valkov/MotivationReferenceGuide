@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Pink – Seven Deadly Flaws of If–Then Rewards (Infographic)</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* Shared tokens (aligned with your Drives look) */
+    --bg-deep:#0b1220;
+    --bg-grad-a:rgba(63,81,181,.18); /* #3F51B5 indigo tint */
+    --bg-grad-b:rgba(103,58,183,.14); /* #673AB7 violet tint */
+    --glass:#0e1628cc;
+    --text:#E9EEFB;
+    --muted:#B9C6E5;
+    --accent:#F44336;  /* crimson for “deadly sins” vibe */
+
+    /* AMP reference colours */
+    --autonomy:#009688; /* teal */
+    --mastery:#1976D2;  /* sapphire */
+    --purpose:#673AB7;  /* violet */
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0; font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
+    color:var(--text);
+    background:
+      radial-gradient(1100px 700px at 10% 8%, var(--bg-grad-a), transparent 60%),
+      radial-gradient(900px 650px at 92% 0%, var(--bg-grad-b), transparent 55%),
+      linear-gradient(180deg, #0a1021, var(--bg-deep) 35%, var(--bg-deep) 100%);
+  }
+
+  .stage{
+    width:min(1280px, 95vw);
+    margin:4vh auto 8vh; padding:28px;
+    background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.02));
+    border-radius:24px;
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,.06) inset,
+      0 25px 60px rgba(0,0,0,.45),
+      0 0 80px 10px rgba(63,81,181,.22);
+  }
+
+  header{margin-bottom:18px}
+  .kicker{color:var(--muted); font-weight:600; letter-spacing:.04em; text-transform:uppercase}
+  .title{font-weight:800; font-size: clamp(28px, 4vw, 42px); margin:.3rem 0 .35rem}
+  .subtitle{color:var(--muted)}
+
+  /* Grid of 7 cards */
+  .grid{display:grid; gap:18px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); margin-top:22px}
+
+  .card{
+    position:relative; padding:18px 18px 16px; border-radius:18px; background:var(--glass);
+    box-shadow: 0 0 0 1px rgba(255,255,255,.06) inset, 0 14px 30px rgba(0,0,0,.35);
+    overflow:hidden;
+  }
+  .card::before{ /* inner glow */
+    content:""; position:absolute; inset:0; border-radius:18px; pointer-events:none;
+    box-shadow: 0 0 28px 4px rgba(244,67,54,.20) inset; /* crimson */
+    mix-blend:screen; opacity:.8;
+  }
+  .num{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:36px; height:36px; border-radius:50%;
+    background:linear-gradient(135deg, rgba(244,67,54,.9), rgba(255,138,128,.7));
+    box-shadow:0 6px 18px rgba(244,67,54,.35);
+    font-weight:800; letter-spacing:.02em; margin-bottom:10px;
+  }
+  .card h3{margin:4px 0 6px; font-size:20px}
+  .card p{margin:6px 0 0; color:var(--muted); line-height:1.55}
+
+  /* AMP callout */
+  .amp{
+    display:grid; gap:14px; grid-template-columns:1.3fr 1fr 1fr 1fr; align-items:stretch;
+    margin-top:26px; padding:16px; border-radius:16px; background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.03));
+    box-shadow: 0 0 0 1px rgba(255,255,255,.06) inset;
+  }
+  .amp h4{margin:4px 0 2px; font-size:18px}
+  .amp p{margin:0; color:var(--muted)}
+  .tag{display:inline-flex; align-items:center; gap:8px; font-weight:700}
+  .sw{width:12px; height:12px; border-radius:3px}
+  .sw.auto{background:var(--autonomy)}
+  .sw.mast{background:var(--mastery)}
+  .sw.purp{background:var(--purpose)}
+
+  @media (max-width: 980px){
+    .amp{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+  <main class="stage" role="document" aria-label="Infographic: Seven Deadly Flaws of If–Then Rewards">
+    <header>
+      <div class="kicker">Daniel H. Pink – DRIVE</div>
+      <div class="title">Seven Deadly Flaws of <em>If–Then</em> Rewards</div>
+      <div class="subtitle">Why carrots & sticks backfire in knowledge work and creative environments.</div>
+    </header>
+
+    <section class="grid" aria-label="Seven flaws">
+      <article class="card">
+        <div class="num">1</div>
+        <h3>They can extinguish intrinsic motivation</h3>
+        <p>Paying for what people already enjoy can erode the joy of doing it for its own sake.</p>
+      </article>
+
+      <article class="card">
+        <div class="num">2</div>
+        <h3>They can diminish performance</h3>
+        <p>Rewards narrow focus—helping simple tasks but hurting creativity, problem‑solving, and complex work.</p>
+      </article>
+
+      <article class="card">
+        <div class="num">3</div>
+        <h3>They can crush creativity</h3>
+        <p>Fear of losing the reward—or chasing it—kills experimentation, risk‑taking, and originality.</p>
+      </article>
+
+      <article class="card">
+        <div class="num">4</div>
+        <h3>They can crowd out good behaviour</h3>
+        <p>People do the minimum for the reward and ignore unmeasured but vital work (helping teammates, long‑term thinking).</p>
+      </article>
+
+      <article class="card">
+        <div class="num">5</div>
+        <h3>They can encourage cheating and shortcuts</h3>
+        <p>Focus on the prize invites gaming the system—cooking numbers, cutting corners, unethical choices.</p>
+      </article>
+
+      <article class="card">
+        <div class="num">6</div>
+        <h3>They can become addictive</h3>
+        <p>Once introduced, rewards are expected every time—raising costs and weakening sustainable motivation.</p>
+      </article>
+
+      <article class="card">
+        <div class="num">7</div>
+        <h3>They can foster short‑term thinking</h3>
+        <p>Carrots and sticks push immediate compliance at the expense of lasting engagement, learning, and growth.</p>
+      </article>
+    </section>
+
+    <section class="amp" aria-label="AMP alternative">
+      <div>
+        <h4>Healthier alternative: AMP</h4>
+        <p>Use <strong>Autonomy, Mastery, Purpose</strong> to fuel durable motivation for engineers and creators.</p>
+      </div>
+      <div>
+        <div class="tag"><span class="sw auto"></span>Autonomy</div>
+        <p>Choice, self‑direction, and ownership of <em>how</em> work gets done.</p>
+      </div>
+      <div>
+        <div class="tag"><span class="sw mast"></span>Mastery</div>
+        <p>Deliberate practice, clear feedback, and stretch challenges.</p>
+      </div>
+      <div>
+        <div class="tag"><span class="sw purp"></span>Purpose</div>
+        <p>Connect work to meaningful impact beyond the individual.</p>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

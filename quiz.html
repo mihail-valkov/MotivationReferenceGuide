@@ -1,0 +1,635 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Motivation & Leadership — Quiz Game</title>
+<style>
+  :root{
+    /* THEME */
+    --bg: #0b0f16;
+    --panel: rgba(255,255,255,.06);
+    --border: rgba(255,255,255,.12);
+    --text: #e8f1ff;
+    --muted: #9fb0cc;
+    --accentA: #00E5FF;  /* left gradient */
+    --accentB: #FF3CAC;  /* right gradient */
+    --success: #00E676;
+    --danger: #FF5252;
+    --warn: #FFD54F;
+
+    /* COMPONENTS */
+    --radius: 18px;
+    --shadow: 0 28px 80px rgba(0,0,0,.45);
+  }
+  html,body{height:100%}
+  body{
+    margin:0; color:var(--text);
+    background:
+      radial-gradient(1200px 800px at 10% -10%, #102040 0%, transparent 60%),
+      radial-gradient(1200px 800px at 90% 110%, #0e1730 0%, transparent 60%),
+      var(--bg);
+    font-family: Inter, ui-sans-serif, system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  }
+  .wrap{max-width:980px;margin:0 auto;padding:18px 16px 40px}
+
+  /* Header */
+  header{display:flex;align-items:center;gap:14px;justify-content:space-between;margin-bottom:16px}
+  .brand{font-weight:900;letter-spacing:.3px}
+  .sub{color:var(--muted);font-size:13px}
+
+  /* Card */
+  .card{
+    background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.035));
+    border:1px solid var(--border);
+    border-radius:24px; padding:18px;
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(8px);
+  }
+
+  /* Progress bar (neon/glow) */
+  .progress{
+    --value: 0;
+    position:relative;height:18px;border-radius:999px;overflow:hidden;margin-bottom:14px;
+    background: rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.15);
+  }
+  .progress__fill{
+    position:absolute;inset:0 auto 0 0;width:calc(var(--value) * 1%);border-radius:inherit;
+    background:
+      linear-gradient(90deg, var(--accentB), var(--accentA)),
+      linear-gradient(180deg, rgba(255,255,255,.25), rgba(0,0,0,.35));
+    box-shadow:
+      inset 0 6px 14px rgba(255,255,255,.25),
+      0 0 28px color-mix(in oklab, var(--accentA) 40%, transparent),
+      0 0 28px color-mix(in oklab, var(--accentB) 40%, transparent);
+    transition:width .5s cubic-bezier(.22,.8,.25,1);
+  }
+  .hud{display:flex;align-items:center;gap:10px;font-size:13px;color:#d6e4ff;margin-bottom:10px}
+  .pill{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;
+        background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);}
+
+  /* Prompt bubble (Duolingo vibe) */
+  .bubble{
+    display:flex;gap:14px;align-items:flex-start;margin:10px 0 14px;
+  }
+  .mascot{
+    width:54px;height:54px;border-radius:16px;flex:0 0 54px;
+    background:
+      radial-gradient(120% 120% at 30% 30%, #1a314d 0%, transparent 70%),
+      linear-gradient(180deg, #10253a, #0b1625);
+    border:1px solid rgba(255,255,255,.12);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.1);
+    display:grid;place-items:center;
+  }
+  .mascot i{width:18px;height:18px;border-radius:50%;
+    background: radial-gradient(circle at 40% 35%, #71ffff, #00b7ff 60%, #0088ff 100%);
+    box-shadow: 0 0 22px rgba(0, 229, 255, .6);
+  }
+  .say{
+    flex:1;background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+    border:1px solid var(--border);border-radius:16px;padding:12px 14px;font-size:15px;
+  }
+
+  /* Question area */
+  .qwrap{margin-top:8px}
+  .q{font-size:18px;font-weight:800;margin:6px 0 12px}
+  .choices{display:grid;gap:10px}
+  .choice{
+    display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:14px;cursor:pointer;
+    background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);
+    transition:transform .06s ease, background .2s ease, border-color .2s ease;
+  }
+  .choice:hover{transform:translateY(-1px);background:rgba(255,255,255,.09)}
+  .choice input{accent-color:#00d4ff}
+  .choice.correct{border-color: color-mix(in oklab, var(--success) 60%, #fff 0%); background: rgba(0, 230, 118, .1)}
+  .choice.wrong{border-color: color-mix(in oklab, var(--danger) 60%, #fff 0%); background: rgba(255, 82, 82, .1)}
+
+  .free{
+    background:#0d1117;border:1px solid #2a3342;color:#eaf2ff;border-radius:12px;padding:12px 14px;
+    width:100%;font-size:16px;outline:none;
+  }
+
+  /* Feedback panel */
+  .feedback{
+    margin-top:12px;padding:12px 14px;border-radius:16px;border:1px solid rgba(255,255,255,.14);
+    display:none;
+  }
+  .feedback.good{display:block;background:rgba(0, 230, 118, .08)}
+  .feedback.bad{display:block;background:rgba(255, 82, 82, .08)}
+  .feedback h4{margin:0 0 6px;font-size:15px}
+  .feedback p{margin:4px 0;color:#d9e5ff}
+
+  /* Controls */
+  .controls{display:flex;gap:10px;justify-content:flex-end;margin-top:14px}
+  .btn{all:unset;display:inline-flex;gap:8px;align-items:center;cursor:pointer;padding:12px 16px;border-radius:12px;
+       background: linear-gradient(90deg, var(--accentB), var(--accentA)); color:#051220;font-weight:800;
+       border:1px solid rgba(255,255,255,.16); box-shadow:0 10px 24px rgba(0,0,0,.25)}
+  .btn.ghost{background:rgba(255,255,255,.06); color:#e9f2ff}
+  .btn:disabled{opacity:.6;cursor:not-allowed}
+
+  /* Final screen */
+  .result{
+    display:none;margin-top:12px;padding:16px;border:1px solid var(--border);border-radius:16px;
+    background:linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.035));
+  }
+  .grid{display:grid;gap:12px}
+  @media(min-width:860px){ .grid{grid-template-columns:1.2fr .8fr} }
+  .revbox{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:12px}
+
+  /* Confetti */
+  .confetti{position:fixed;inset:0;pointer-events:none;overflow:hidden}
+  .piece{position:absolute;width:10px;height:10px;opacity:.9;will-change:transform,opacity}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <div class="brand">Motivation & Leadership — Quiz</div>
+      <div class="sub">Activate your knowledge · Get instant feedback · Identify what to review</div>
+    </div>
+    <div class="pill" id="scorePill">Score: <strong id="score">0</strong> / <span id="total">20</span></div>
+  </header>
+
+  <div class="card">
+    <div class="progress" aria-label="Progress"><div class="progress__fill" id="pfill"></div></div>
+    <div class="hud">
+      <span class="pill">Q <span id="qnum">1</span> / <span id="qcount">20</span></span>
+      <span class="pill" id="topicPill">Topic: —</span>
+    </div>
+
+    <div class="bubble">
+      <div class="mascot"><i></i></div>
+      <div class="say" id="coach">
+        Ready? I’ll ask short questions. Pick an answer and I’ll explain why it’s right (or how to rethink it).
+      </div>
+    </div>
+
+    <div class="qwrap" id="qwrap">
+      <div class="q" id="question">Loading…</div>
+      <div class="choices" id="choices"></div>
+      <input class="free" id="free" placeholder="Type your answer…" style="display:none"/>
+      <div class="feedback" id="feedback">
+        <h4 id="fbtitle">Nice!</h4>
+        <p id="fbtext">Explanation will appear here.</p>
+      </div>
+      <div class="controls">
+        <button class="btn ghost" id="skipBtn">Skip</button>
+        <button class="btn" id="checkBtn">Check</button>
+        <button class="btn" id="nextBtn" style="display:none">Next</button>
+      </div>
+    </div>
+
+    <div class="result" id="result">
+      <div class="grid">
+        <div class="revbox">
+          <h3>Your Summary</h3>
+          <p><strong id="finalScore">0 / 20</strong> correct.</p>
+          <p id="summaryMsg">Great effort! See suggested topics to review.</p>
+          <div style="margin-top:10px">
+            <button class="btn" id="retryBtn">Retry quiz</button>
+          </div>
+        </div>
+        <div class="revbox">
+          <h3>Review Suggestions</h3>
+          <ul id="suggestions" style="margin:6px 0 0 18px;"></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="confetti" id="confetti"></div>
+
+<script>
+/* ===================== QUESTIONS ===================== */
+/* type: 'tf' (true/false), 'mc' (multiple choice), 'free' (fill-in)
+   tags: used to suggest what to review later
+   correct: for mc -> index (0-based); for tf -> boolean; for free -> array of acceptable strings
+*/
+const QUESTIONS = [
+  // Section A: Groups & Leadership Basics
+  { id:1, type:'tf',  topic:'Groups', 
+    q:'People primarily join and stay in groups because groups help them meet needs and achieve goals.',
+    correct:true,
+    explain:'Membership is goal/needs-driven (autonomy, mastery, belonging, impact, fair rewards). When unmet → disengagement/attrition.',
+    tags:['groups','motivation'] },
+
+  { id:2, type:'mc',  topic:'Groups',
+    q:'Which of the following is NOT a reason why groups outperform individuals on complex work?',
+    choices:['Specialization','Shared load','Coordination cost','Parallelism'],
+    correct:2,
+    explain:'Coordination cost can reduce net productivity if unmanaged; the other three are fundamental benefits.',
+    tags:['groups'] },
+
+  { id:3, type:'mc',  topic:'Leadership',
+    q:'Leadership is best described as…',
+    choices:[
+      'A title given by HR',
+      'Permission to influence granted by the group, tied to expectations',
+      'Innate talent some are born with',
+      'The ability to do the most technical work'
+    ],
+    correct:1,
+    explain:'Leadership ≠ title. It’s legitimacy conferred by followers, maintained through trust and results.',
+    tags:['leadership'] },
+
+ { id:4, type:'mc', topic:'Groups in Ordinary life',
+    q:'Which of the following is a non-work example where a group clearly needed a leader/organizer to succeed?',
+    choices:['Planning a group trip or event','Choosing a movie on Netflix','Shopping for groceries'],
+    correct:0,
+    explain:'Everyday coordination (e.g., planning a trip/event/wedding) benefits from a clear organizer, while individual tasks like choosing a movie or shopping don’t require group leadership.',
+    tags:['leadership','groups'] },
+
+  // Section B: Theories of Motivation
+  { id:5, type:'mc', topic:'Motivation Theories',
+    q:'Which theory says motivation depends on belief that effort → performance → reward?',
+    choices:['Herzberg’s Two-Factor','Vroom’s Expectancy','Maslow’s Hierarchy','McClelland’s Needs'],
+    correct:1,
+    explain:'Expectancy (effort→performance), instrumentality (performance→outcome), valence (value of outcome).',
+    tags:['theories'] },
+
+  { id:6, type:'mc', topic:'Motivation Theories',
+    q:'According to Herzberg, salary is…',
+    choices:['A motivator','A hygiene factor','Both','Neither'],
+    correct:1,
+    explain:'Salary removes dissatisfaction when fair; it doesn’t create enduring motivation by itself.',
+    tags:['herzberg'] },
+
+  { id:7, type:'tf', topic:'Motivation Theories',
+    q:'In Self-Determination Theory, autonomy, competence, and relatedness are essential psychological needs.',
+    correct:true,
+    explain:'SDT posits three universal needs; when supported, intrinsic motivation rises.',
+    tags:['sdt'] },
+
+  { id:8, type:'mc', topic:'Motivation Theories',
+    q:'What\'s the key difference between hygiene factors and motivation factors in Herzberg\'s Two-Factor Theory?',
+    choices:[
+      'Hygiene factors prevent dissatisfaction but don\'t motivate; motivators create satisfaction and drive performance',
+      'Hygiene factors motivate temporarily; motivation factors provide long-term motivation',
+      'Hygiene factors are about physical workspace; motivation factors are about mental engagement'
+    ],
+    correct:0,
+    explain:'Hygiene factors prevent dissatisfaction when adequate; motivators (achievement, growth, recognition) create motivation.',
+    tags:['herzberg'] },
+
+  // Section C: Octalysis Framework
+  { id:9, type:'free', topic:'Octalysis',
+    q:'Fill in the blank: Drive 1 in Octalysis is called ________.',
+    correct:['epic meaning and calling','epic meaning','epic meaning & calling'],
+    explain:'D1 = Epic Meaning & Calling: being part of something larger.',
+    tags:['octalysis'] },
+
+  { id:10, type:'mc', topic:'Octalysis',
+    q:'Which drive is primarily activated by deadlines, limited seats, or "last chance" offers?',
+    choices:['D3 – Empowerment & Feedback','D6 – Scarcity & Impatience','D5 – Social Influence','D7 – Unpredictability & Curiosity'],
+    correct:1,
+    explain:'Time-gates and limited supply trigger urgency (D6).',
+    tags:['octalysis'] },
+
+  { id:11, type:'tf', topic:'Octalysis',
+    q:'Octalysis drives are considered exhaustive—every action can be explained by one or more drives.',
+    correct:true,
+    explain:'The framework aims to be exhaustive; behaviors usually mix multiple drives.',
+    tags:['octalysis'] },
+
+  { id:12, type:'mc', topic:'Octalysis',
+    q:'Which is an example of D5 – Social Influence & Relatedness?',
+    choices:['Debugging fun','Peer recognition','Limited time offer','Risk avoidance'],
+    correct:1,
+    explain:'Belonging/recognition sit in D5.',
+    tags:['octalysis'] },
+
+  { id:13, type:'mc', topic:'White vs Black',
+    q:'What is the key difference between White Hat and Black Hat drives?',
+    choices:[
+      'White Hat drives are for beginners; Black Hat drives are for experts',
+      'White Hat drives work in teams; Black Hat drives work for individuals',
+      'White Hat drives always work and should be used; Black Hat drives are dangerous and should be avoided',
+      'White Hat drives feel positive, sustainable and in control (meaning, growth, autonomy); Black Hat drives create urgency, pressure and feel out of control (no autonomy, short-term focus)' 
+    ],
+    correct:3,
+    explain:'White Hat → meaning/growth/autonomy (feel-good, sustainable, in control). Black Hat → urgency/fear/pressure (powerful but draining, short-term focus, loss of control).',
+    tags:['octalysis'] },
+
+  // Section D: AMP
+  { id:14, type:'free', topic:'AMP',
+    q:'List the three elements of Daniel Pink’s Drive (AMP).',
+    correct:['autonomy mastery purpose','autonomy, mastery, purpose'],
+    explain:'Pink: Autonomy, Mastery, Purpose.',
+    tags:['amp'] },
+
+  { id:15, type:'mc', topic:'AMP ↔ Octalysis',
+    q:'Which Octalysis drives align most closely with Pink\'s "Autonomy" and "Purpose"?',
+    choices:[
+      'D2 & D8',
+      'D3/D4 and D1',
+      'D6 & D7',
+      'D4 & D5'
+    ],
+    correct:1,
+    explain:'Autonomy ≈ D3 (creativity) & D4 (ownership); Purpose ≈ D1.',
+    tags:['amp','octalysis'] },
+
+  // Section E: Application
+  { id:16, type:'tf', topic:'Motivation Theories Application',
+    q:'Black Hat drives always lead to negative outcomes and should be avoided.',
+    correct:false,
+    explain:'They are powerful. Use sparingly for urgency; avoid sustained pressure.',
+    tags:['octalysis','application'] },
+
+  { id:17, type:'mc', topic:'Motivation Theories Application',
+    q:'A junior engineer who values experimentation and fast feedback is most motivated by…',
+    choices:['D2 – Development','D3 – Empowerment & Feedback','D6 – Scarcity','D8 – Loss & Avoidance'],
+    correct:1,
+    explain:'They want autonomy to try things + quick feedback loops.',
+    tags:['application','octalysis'] },
+
+  { id:18, type:'mc', topic:'Motivation Theories Application',
+    q:'A teammate disengages because credit goes elsewhere. Which drive is suppressed?',
+    choices:['D4 – Ownership','D5 – Social Influence','D2 – Development','D7 – Unpredictability'],
+    correct:0,
+    explain:'Unfair rewards/credit poison ownership.',
+    tags:['application','octalysis'] },
+
+  { id:19, type:'free', topic:'Self-Reflection',
+    q:'Name one White Hat drive you could strengthen in your team next sprint.',
+    correct:['epic meaning','epic meaning and calling','development','accomplishment','empowerment','creativity','feedback','social','relatedness','belonging','purpose','mastery','autonomy'],
+    explain:'Any step that boosts meaning, progress, creativity, or belonging increases White Hat pull.',
+    tags:['reflection'] },
+
+  { id:20, type:'free', topic:'Self-Reflection',
+    q:'Which Octalysis drives motivate you most right now in your role?',
+    correct:['epic meaning','development','accomplishment','empowerment','creativity','feedback','ownership','possession','social influence','relatedness','scarcity','impatience','unpredictability','curiosity','loss','avoidance'],
+    explain:'Knowing your own drivers helps you design work that sustains your motivation.',
+    tags:['reflection'] },
+];
+
+const TOTAL = QUESTIONS.length;
+
+/* ===================== STATE ===================== */
+let idx = 0;
+let score = 0;
+let answered = false;
+let wrongTags = new Map(); // tag -> count
+
+/* ===================== ELEMENTS ===================== */
+const pfill = document.getElementById('pfill');
+const qnum  = document.getElementById('qnum');
+const qcount= document.getElementById('qcount');
+const scoreEl = document.getElementById('score');
+const totalEl = document.getElementById('total');
+const topicPill = document.getElementById('topicPill');
+
+const coach = document.getElementById('coach');
+const questionEl = document.getElementById('question');
+const choicesEl  = document.getElementById('choices');
+const freeEl     = document.getElementById('free');
+
+const feedback  = document.getElementById('feedback');
+const fbtitle   = document.getElementById('fbtitle');
+const fbtext    = document.getElementById('fbtext');
+
+const skipBtn   = document.getElementById('skipBtn');
+const checkBtn  = document.getElementById('checkBtn');
+const nextBtn   = document.getElementById('nextBtn');
+
+const resultBox = document.getElementById('result');
+const finalScore= document.getElementById('finalScore');
+const summaryMsg= document.getElementById('summaryMsg');
+const suggList  = document.getElementById('suggestions');
+const retryBtn  = document.getElementById('retryBtn');
+
+const confetti  = document.getElementById('confetti');
+
+totalEl.textContent = TOTAL;
+qcount.textContent  = TOTAL;
+
+/* ===================== RENDER ===================== */
+function setProgress(){
+  const v = Math.round((idx)/TOTAL * 100);
+  pfill.style.setProperty('--value', v);
+  qnum.textContent = Math.min(idx+1, TOTAL);
+  scoreEl.textContent = score;
+}
+
+function renderQuestion(){
+  answered = false;
+  feedback.className = 'feedback';
+  feedback.style.display = 'none';
+  nextBtn.style.display = 'none';
+  checkBtn.style.display = 'inline-flex';
+  freeEl.style.display = 'none';
+  freeEl.value = '';
+  choicesEl.innerHTML = '';
+
+  const q = QUESTIONS[idx];
+  topicPill.textContent = `Topic: ${q.topic}`;
+
+  // Friendly coach line
+  coach.textContent = (q.type === 'free')
+    ? 'Type your best short answer. I accept close matches — focus on the concept.'
+    : 'Choose the best answer. Then I’ll explain the why.';
+
+  questionEl.textContent = q.q;
+
+  if(q.type === 'mc' || q.type === 'tf'){
+    const opts = (q.type === 'tf') ? ['True','False'] : q.choices.slice();
+    opts.forEach((opt, idx)=>{
+      const id = 'opt_'+Math.random().toString(36).slice(2,8);
+      const div = document.createElement('label');
+      div.className = 'choice';
+      div.innerHTML = `<input type="radio" name="choice" value="${idx}" data-text="${opt}" aria-label="${opt}"/><span>${opt}</span>`;
+      div.htmlFor = id;
+      div.addEventListener('click', ()=> {
+        const radios = choicesEl.querySelectorAll('input[type=radio]');
+        radios.forEach(r=>r.checked = (r.value === String(idx)));
+      });
+      choicesEl.appendChild(div);
+    });
+  } else {
+    freeEl.style.display = 'block';
+  }
+
+  setProgress();
+}
+
+/* ===================== CHECK/FEEDBACK ===================== */
+function norm(s){
+  return String(s||'').toLowerCase().replace(/[^\p{L}\p{N}\s&-]/gu,'').replace(/\s+/g,' ').trim();
+}
+
+function containsAny(hay, arr){
+  const H = norm(hay);
+  return arr.some(a => {
+    const n = norm(a);
+    return H === n || H.includes(n);
+  });
+}
+
+function confettiBurst(){
+  const colors = [getComputedStyle(document.documentElement).getPropertyValue('--accentA').trim(),
+                  getComputedStyle(document.documentElement).getPropertyValue('--accentB').trim(),
+                  '#00E676','#FFD54F','#40C4FF'];
+  for(let i=0;i<40;i++){
+    const p = document.createElement('div');
+    p.className = 'piece';
+    p.style.left = (Math.random()*100)+'%';
+    p.style.top  = '-10px';
+    const c = colors[Math.floor(Math.random()*colors.length)];
+    p.style.background = c;
+    const x = (Math.random()*2-1)*120; // horizontal drift
+    const rot = (Math.random()*360)+'deg';
+    const dur = 1000 + Math.random()*1400;
+    p.animate([
+      { transform:`translate(0,0) rotate(0deg)`, opacity:1 },
+      { transform:`translate(${x}px, 120vh) rotate(${rot})`, opacity:0.9 }
+    ], { duration: dur, easing:'cubic-bezier(.2,.8,.2,1)' });
+    confetti.appendChild(p);
+    setTimeout(()=>p.remove(), dur+50);
+  }
+}
+
+function tagWrong(q){
+  (q.tags||[]).forEach(t=>{
+    wrongTags.set(t, (wrongTags.get(t)||0)+1);
+  });
+}
+
+function checkAnswer(){
+  if(answered) return;
+  const q = QUESTIONS[idx];
+
+  let isCorrect = false, learnerAnswer = '';
+
+  if(q.type === 'mc' || q.type === 'tf'){
+    const chosen = choicesEl.querySelector('input[type=radio]:checked');
+    if(!chosen){ coach.textContent = 'Pick one answer first 😊'; return; }
+    const answerIdx = parseInt(chosen.value);
+    learnerAnswer = chosen.dataset.text;
+    
+    isCorrect = (q.type === 'tf')
+      ? ( (answerIdx === 0) === Boolean(q.correct) )
+      : (answerIdx === q.correct);
+
+    // decorate choices
+    choicesEl.querySelectorAll('.choice').forEach(c=>{
+      const input = c.querySelector('input');
+      const val = parseInt(input.value);
+      if(q.type === 'tf'){
+        const correctIdx = q.correct ? 0 : 1;
+        if(val === correctIdx) c.classList.add('correct');
+        if(val === answerIdx && val !== correctIdx) c.classList.add('wrong');
+      } else {
+        if(val === q.correct) c.classList.add('correct');
+        if(val === answerIdx && val !== q.correct) c.classList.add('wrong');
+      }
+    });
+  } else {
+    learnerAnswer = freeEl.value;
+    if(!learnerAnswer.trim()){ coach.textContent = 'Type your best short answer first 😊'; return; }
+    if(Array.isArray(q.correct)){
+      isCorrect = containsAny(learnerAnswer, q.correct);
+    } else {
+      isCorrect = norm(learnerAnswer) === norm(q.correct);
+    }
+  }
+
+  answered = true;
+  if(isCorrect){
+    score++;
+    scoreEl.textContent = score;
+    feedback.className = 'feedback good';
+    fbtitle.textContent = 'Correct!';
+    fbtext.textContent  = q.explain;
+    coach.textContent   = 'Nice work — that understanding will compound over the course.';
+    confettiBurst();
+  } else {
+    feedback.className = 'feedback bad';
+    fbtitle.textContent = 'Not quite — here’s how to think about it:';
+    fbtext.textContent  = q.explain;
+    coach.textContent   = 'Good miss to learn from. Read the tip, then continue.';
+    tagWrong(q);
+  }
+  feedback.style.display = 'block';
+  checkBtn.style.display = 'none';
+  nextBtn.style.display  = 'inline-flex';
+}
+
+/* ===================== NAVIGATION ===================== */
+function nextQuestion(){
+  if(idx < TOTAL-1){
+    idx++;
+    renderQuestion();
+  } else {
+    finishQuiz();
+  }
+}
+
+function skipQuestion(){
+  if(answered) { nextQuestion(); return; }
+  // mark as wrong for suggestions (neutral skip counts as light wrong)
+  tagWrong(QUESTIONS[idx]);
+  nextQuestion();
+}
+
+/* ===================== RESULTS ===================== */
+function finishQuiz(){
+  document.getElementById('qwrap').style.display = 'none';
+  resultBox.style.display = 'block';
+  finalScore.textContent = `${score} / ${TOTAL}`;
+
+  const pct = Math.round(score / TOTAL * 100);
+  let msg = 'Great effort!';
+  if(pct === 100) msg = 'Flawless! 🚀';
+  else if(pct >= 85) msg = 'Strong mastery — just polish the edges.';
+  else if(pct >= 70) msg = 'Solid — review a few topics below.';
+  else msg = 'Nice start — target the review list to level up fast.';
+
+  summaryMsg.textContent = msg;
+
+  // Build suggestions by most-missed tags
+  const sorted = [...wrongTags.entries()].sort((a,b)=>b[1]-a[1]).slice(0,6);
+  suggList.innerHTML = '';
+  const labelMap = {
+    groups:'Groups & why leadership exists',
+    leadership:'Leadership as permission & expectations',
+    motivation:'Motivation basics',
+    theories:'Motivation theories overview',
+    herzberg:'Herzberg Two-Factor',
+    sdt:'Self-Determination Theory',
+    octalysis:'Octalysis drives',
+    amp:'AMP (Autonomy, Mastery, Purpose)',
+    application:'Applying drives at work',
+    'white vs black':'White Hat vs Black Hat',
+    reflection:'Personal reflection'
+  };
+  if(sorted.length === 0){
+    const li = document.createElement('li');
+    li.textContent = 'No weak patterns detected. Consider revisiting slides you found most surprising.';
+    suggList.appendChild(li);
+  } else {
+    sorted.forEach(([tag,count])=>{
+      const li = document.createElement('li');
+      li.textContent = `${labelMap[tag] || tag} — revisit ${count} question(s).`;
+      suggList.appendChild(li);
+    });
+  }
+}
+
+/* ===================== WIRE ===================== */
+checkBtn.addEventListener('click', checkAnswer);
+nextBtn.addEventListener('click', nextQuestion);
+skipBtn.addEventListener('click', skipQuestion);
+retryBtn.addEventListener('click', ()=>{
+  idx=0;score=0;answered=false;wrongTags.clear();
+  resultBox.style.display='none';
+  document.getElementById('qwrap').style.display='block';
+  renderQuestion();
+});
+
+/* init */
+renderQuestion();
+</script>
+</body>
+</html>

@@ -1,0 +1,1057 @@
+<!-- Conversion of Effective Leadership.pdf to HTML
+ Interactive guide for Upskill Tech Leadership Telerik Academy Course by Mihail Valkov 
+ Features:
+ Expandable sections
+ Smooth background transitions
+ Responsive design
+ -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Effective Leadership: Google Project Oxygen – Expandable Guide</title>
+  <style>
+    :root {
+      --bg-1: radial-gradient(1200px 600px at 20% -10%, #9dd6ff25, transparent 60%),
+        radial-gradient(1000px 600px at 90% 20%, #c8b6ff20, transparent 60%),
+        linear-gradient(180deg, #080c18, #0d1220 60%, #080c18);
+      --bg-2: radial-gradient(1200px 600px at 10% 0%, #b2f7ef30, transparent 60%),
+        radial-gradient(1000px 600px at 80% 20%, #eef7a128, transparent 60%),
+        linear-gradient(180deg, #0a0f1c, #0f1628 60%, #0a0f1c);
+      --bg-3: radial-gradient(1200px 600px at 10% 0%, #ffd6a535, transparent 60%),
+        radial-gradient(1000px 600px at 80% 20%, #ffcad430, transparent 60%),
+        linear-gradient(180deg, #0a0f1c, #12151f 60%, #0a0f1c);
+      --bg-4: radial-gradient(1200px 600px at 20% 0%, #a8e6cf35, transparent 60%),
+        radial-gradient(1000px 600px at 80% 20%, #dcedc130, transparent 60%),
+        linear-gradient(180deg, #080e16, #0d1a0f 60%, #080e16);
+      --bg-5: radial-gradient(1200px 600px at 20% 0%, #b5e0ff35, transparent 60%),
+        radial-gradient(1000px 600px at 80% 20%, #ffd1dc35, transparent 60%),
+        linear-gradient(180deg, #080e1a, #0c1b2a 60%, #080e1a);
+      --bg-6: radial-gradient(1200px 600px at 20% 0%, #c7ffd835, transparent 60%),
+        radial-gradient(1000px 600px at 80% 20%, #f7d6ff35, transparent 60%),
+        linear-gradient(180deg, #080c16, #13141f 60%, #080c16);
+      --bg-7: radial-gradient(1200px 600px at 20% 0%, #c3f0ca35, transparent 60%),
+        radial-gradient(1000px 600px at 80% 20%, #a3d5ff35, transparent 60%),
+        linear-gradient(180deg, #080c16, #0b1a2a 60%, #080c16);
+      --bg-8: radial-gradient(1200px 600px at 20% 0%, #ffd4b835, transparent 60%),
+        radial-gradient(1000px 600px at 80% 20%, #b8e1ff35, transparent 60%),
+        linear-gradient(180deg, #080c16, #131729 60%, #080c16);
+      --bg-9: radial-gradient(1200px 600px at 20% 0%, #ffe3a335, transparent 60%),
+        radial-gradient(1000px 600px at 80% 20%, #c1ffd735, transparent 60%),
+        linear-gradient(180deg, #080c16, #0f1f28 60%, #080c16);
+      --bg-10: radial-gradient(1200px 600px at 20% 0%, #d1c4e935, transparent 60%),
+        radial-gradient(1000px 600px at 80% 20%, #a5ffd635, transparent 60%),
+        linear-gradient(180deg, #080c16, #12131f 60%, #080c16);
+
+      --card-bg: rgba(255, 255, 255, 0.06);
+      --card-stroke: rgba(255, 255, 255, 0.14);
+      --text: #cadbf4;
+      --muted: #a9b6d3;
+      --accent: #8bd3ff;
+      --link: #9bd1ff;
+    }
+
+    html,
+    body {
+      height: 100%;
+    }
+
+    body {
+      margin: 0;
+      font: 16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+      color: var(--text);
+      background: var(--bg-1);
+      background-attachment: fixed;
+      transition: background 600ms ease;
+    }
+
+    .app {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 24px;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 24px;
+      align-items: start;
+    }
+
+    /* Sidebar */
+    .nav {
+      position: sticky;
+      top: 16px;
+      height: calc(100vh - 32px);
+      overflow: auto;
+      padding: 12px;
+      border: 1px solid var(--card-stroke);
+      border-radius: 16px;
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+    }
+
+    .nav h1 {
+      font-size: 20px;
+      margin: 0 0 8px 0;
+      letter-spacing: .3px;
+    }
+
+    .nav p {
+      color: var(--muted);
+      margin: 0 0 12px 0;
+      font-size: 14px;
+    }
+
+    .toc {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .toc li {
+      margin: 0px 0;
+    }
+
+    .toc a {
+      display: flex;
+      gap: 4px;
+      text-decoration: none;
+      color: var(--link);
+      padding: 8px 10px;
+      border-radius: 10px;
+      border: 1px solid transparent;
+    }
+
+    .toc a.active {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: var(--card-stroke);
+    }
+
+    /* Main */
+    main {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    header.hero {
+      padding: 18px;
+      border: 1px solid var(--card-stroke);
+      border-radius: 16px;
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+    }
+
+    header h2 {
+      margin: 0 0 4px 0;
+      font-weight: 700;
+      letter-spacing: .2px;
+    }
+
+    header p {
+      color: var(--muted);
+      margin: 0;
+    }
+
+    section {
+      scroll-margin-top: 16px;
+    }
+
+    details.unit {
+      border: 1px solid var(--card-stroke);
+      border-radius: 16px;
+      overflow: hidden;
+      background: var(--card-bg);
+    }
+
+    summary.unit-title {
+      list-style: none;
+      padding: 18px 56px 18px 18px;
+      cursor: pointer;
+      position: relative;
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+      color: var(--accent);
+    }
+
+    summary.unit-title::-webkit-details-marker {
+      display: none;
+    }
+
+    .idx {
+      display: inline-grid;
+      place-items: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid var(--card-stroke);
+      margin-right: 10px;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .badge {
+      font-size: 12px;
+      padding: 3px 8px;
+      border: 1px solid var(--card-stroke);
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.2);
+      margin-left: 8px;
+      color: #dbe8ff;
+    }
+
+    .chev {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      translate: 0 -50%;
+      width: 10px;
+      height: 10px;
+      border-right: 2px solid #d6e6ff;
+      border-bottom: 2px solid #d6e6ff;
+      rotate: -45deg;
+      transition: transform 200ms ease;
+    }
+
+    details[open] .chev {
+      transform: rotate(45deg);
+    }
+
+    .content {
+      padding: 0 18px 18px 18px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(280px, 1fr));
+      gap: 14px;
+    }
+
+    @media (max-width: 920px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card {
+      border: 1px solid var(--card-stroke);
+      border-radius: 14px;
+      padding: 14px;
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .card-span {
+      grid-column: 1 / -1;
+    }
+
+    .card h4 {
+      margin: 0 0 8px 0;
+      font-size: 15px;
+      letter-spacing: .2px;
+      color: var(--accent);
+    }
+
+    .card ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .card p {
+      margin: 0 0 6px 0;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .legend {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      margin-left: 8px;
+    }
+
+    .legend span {
+      font-size: 12px;
+      border: 1px solid var(--card-stroke);
+      background: rgba(255, 255, 255, 0.06);
+      padding: 3px 6px;
+      border-radius: 8px;
+    }
+
+    .foot {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 8px;
+    }
+
+    .kicker {
+      font-weight: 600;
+      color: #dff1ff;
+    }
+
+    .pill {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--card-stroke);
+      background: rgba(255, 255, 255, 0.06);
+      font-size: 12px;
+      margin: 3px 6px 0 0;
+    }
+
+    .card a {
+      color: var(--link);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 200ms ease;
+    }
+
+    .card a:hover {
+      border-bottom-color: var(--link);
+    }
+
+    /* @media (max-width: 1024px) {
+      .app {
+        grid-template-columns: 1fr;
+      }
+
+      .nav {
+        position: relative;
+        top: 0;
+        height: auto;
+        max-height: 400px;
+      }
+    } */
+  </style>
+</head>
+
+<body>
+  <div class="app">
+    <aside class="nav">
+      <h1>Effective Leadership</h1>
+      <p>Google Project Oxygen, deconstructed for new tech leads.</p>
+      <p class="muted" style="text-align: right; font-size: x-small;">Mihail Valkov, Telerik Academy</p>
+      <ul class="toc" id="toc">
+        <li><a href="#u1">1) Be a good coach</a></li>
+        <li><a href="#u2">2) Empower the team without micromanaging</a></li>
+        <li><a href="#u3">3) Create a team environment that values everyone</a></li>
+        <li><a href="#u4">4) Focus on productivity and results</a></li>
+        <li><a href="#u5">5) Communicate effectively</a></li>
+        <li><a href="#u6">6) Support career development and discuss performance</a></li>
+        <li><a href="#u7">7) Implement a clear vision and strategy</a></li>
+        <li><a href="#u8">8) Have key technical skills</a></li>
+        <li><a href="#u9">9) Collaborate across the organisation</a></li>
+        <li><a href="#u10">10) Make strong decisions</a></li>
+        <li><a href="#mistakes">📌 Bonus: Common Mistakes</a></li>
+        <li><a href="#references">📚 References &amp; Resources</a></li>
+      </ul>
+      <div class="foot">✅ covered · 🟡 touched · 🔷 advanced</div>
+    </aside>
+
+    <main>
+      <header class="hero">
+        <h2>Effective Leadership: Google Project Oxygen Findings, Deconstructed for New Tech Leads</h2>
+        <p>&nbsp;</p>
+        <div class="card">
+          <p>What it means to be an effective lead in the tech industry and how to get there?</p>
+          <p class="muted">Google's <a href="https://rework.withgoogle.com/intl/en/guides/managers-research-behind-great-managers" target="_blank">Project Oxygen</a> identified 10 behaviours of highly effective managers. This guide
+            translates them into practice for our Upskill Tech Leadership course: what they look like, which frameworks to
+            use, how to learn them, and where they live in the curriculum.</p>
+        </div>
+      </header>
+
+      <!-- 1) Be a good coach -->
+      <section id="u1" data-bg="var(--bg-1)">
+        <details class="unit" open>
+          <summary class="unit-title"><span class="idx">1</span>Be a good coach <span class="chev"></span></summary>
+          <div class="content">
+            <div class="grid">
+              <div class="card card-span">
+                <p>One of the most critical aspects of effective leadership, particularly for new tech leads, is the
+                  ability to act as a good coach. This goes beyond simply assigning tasks or dictating solutions; it
+                  involves fostering an environment of growth, empowering team members, and guiding them towards their
+                  full potential. A good coach understands that their role is not to have all the answers, but to help
+                  their team discover their own.</p>
+              </div>
+              <div class="card">
+                <h4>💡 What it means in practice</h4>
+                <ul>
+                  <li><strong>Hold regular 1:1s</strong> (weekly/biweekly) focused on the person, not just tasks.</li>
+                  <li><strong>Ask more, better questions</strong> (curiosity first), then help them choose a path.
+                    <ul>
+                      <li>Stay away from directly solving coachee's problems or suggesting actions</li>
+                      <li>Adapt depending on seniority and situation</li>
+                    </ul>
+                  </li>
+                  <li><strong>Set clear next steps</strong> and <strong>follow up</strong> (coaching without follow-up is more like cheerleading).</li>
+                  <li><strong>Spot patterns:</strong> strengths, blockers, mindsets; <strong>remove obstacles</strong> or escalate</li>
+                </ul>
+              </div>
+              <div class="card">
+                <h4>🛠️ Frameworks &amp; tools</h4>
+                <ul>
+                  <li><strong>GROW</strong> (Goal → Reality → Options → Way forward) for 1:1s.</li>
+                  <li><strong>Active listening</strong> (reflect, label, check).</li>
+                  <li><strong>SBI</strong> (Situation – Behavior – Impact) for specific feedback.</li>
+                  <li><strong>Strengths-based</strong> coaching (use coachee strengths / Clifton strengths model).</li>
+                  <li><strong>AI Coaching simulator</strong> – provided in the course</li>
+                </ul>
+              </div>
+              <div class="card">
+                <h4>📈 Level & learning sequence</h4>
+                <p><span class="kicker">Learn now (0–90 days):</span> GROW basics, 1:1 cadence, SBI.</p>
+                <p><span class="kicker">Build next:</span> Patterns across people; coaching for performance & autonomy.</p>
+                <p><span class="kicker">Deepen:</span> Cross-team coaching; coaching other managers.</p>
+              </div>
+              <div class="card">
+                <h4>⚠️ Personality watch-outs</h4>
+                <ul>
+                  <li><strong>Goal-oriented:</strong> "Just tell them what to do." → Stay in questions first mode.</li>
+                  <li><strong>People-oriented:</strong> Comfort over candor. → Pair care <strong>and</strong> challenge (Radical Candor).</li>
+                  <li><strong>Tech-challenge:</strong> Turn coaching into tutorials. → Ask before showing; teach once, then observe.</li>
+                </ul>
+              </div>
+              <div class="card card-span">
+                <h4>🎓 Course mapping <span class="legend"><span>✅ Management Core – IC→Manager shift</span><span>✅
+                      Developing People</span><span>✅ Team Morale &amp; Well-Being</span><span>✅ Managing Poor Performance &amp;
+                      Firing</span></span></h4>
+              </div>
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <!-- 2) Empower without micromanaging -->
+      <section id="u2" data-bg="var(--bg-2)">
+        <details class="unit">
+          <summary class="unit-title"><span class="idx">2</span>Empower the team without micromanaging <span
+              class="chev"></span></summary>
+          <div class="content">
+            <div class="grid">
+              <div class="card card-span">
+                <p>Effective tech leadership hinges on empowering teams without micromanaging. Empowerment means providing <strong>autonomy</strong>, resources, and support, fostering innovation and ownership, which leads to increased engagement, satisfaction, and better project outcomes. Conversely, micromanagement – excessive control – erodes trust, stifles creativity, and demotivates, leading to inefficiency, slow reactions, and high turnover.</p>
+              </div>
+              <div class="card">
+                <h4>💡 What it means in practice</h4>
+                <ul>
+                  <li><strong>Assess → Adapt → Collaborate</strong> per person/task:
+                    <ul>
+                      <li><strong>Assess</strong> skill &amp; motivation for this task.</li>
+                      <li><strong>Adapt</strong> stance (Delegate / Coach / Mentor / Teach / Direct).</li>
+                      <li><strong>Collaborate</strong> &dash; check-ins, DoD, follow processes, team rituals.</li>
+                    </ul>
+                  </li>
+                  <li>Set <strong>outcomes</strong>, not step-by-step instructions; agree <strong>checkpoints</strong>; remove blockers.</li>
+                </ul>
+              </div>
+              <div class="card">
+                <h4>🛠️ Frameworks & tools</h4>
+                <ul>
+                  <li><strong>Situational/Adaptive Leadership</strong> (Hersey–Blanchard; Skill/Will matrix).</li>
+                  <li><strong>Delegation levels</strong> (Tell→Sell→Consult→Agree→Delegate).</li>
+                  <li><strong>Working agreements</strong> (how we decide/commit/escalate).</li>
+                </ul>
+              </div>
+              <div class="card">
+                <h4>📈 Level & learning sequence</h4>
+                <p><span class="kicker">Learn now:</span> Adaptive stance basics; two tasks delegated with guardrails.
+                </p>
+                <p><span class="kicker">Build next:</span> Broaden delegation across team; make it routine.</p>
+                <p><span class="kicker">Deepen:</span> Delegate cross-team initiatives.</p>
+              </div>
+              <div class="card">
+                <h4>⚠️ Personality watch-outs</h4>
+                <ul>
+                  <li><strong>Goal-oriented:</strong> Command &amp; control; skip coaching. → Use decision logs &amp;
+                    trade-offs.</li>
+                  <li><strong>People-oriented:</strong> Vague asks. → Always end with What/Who/When.</li>
+                  <li><strong>Tech-challenge:</strong> Keep critical path. → Don't own hero tasks; pair-coach instead.
+                  </li>
+                </ul>
+              </div>
+              <div class="card card-span">
+                <h4>🎓 Course mapping <span class="legend"><span>✅ Team Management And Dynamics</span><span>🟡 Delegation &amp; Trust</span><span>🟡 Planning &amp; Execution</span></span></h4>
+              </div>
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <!-- 3) Team environment that values everyone -->
+      <section id="u3" data-bg="var(--bg-3)">
+        <details class="unit">
+          <summary class="unit-title"><span class="idx">3</span>Create a team environment that values everyone <span
+              class="chev"></span></summary>
+          <div class="content">
+            <div class="grid">
+              <div class="card card-span">
+                <p>Building a high-performing team requires fostering an inclusive environment where individuals feel
+                  valued and respected. This involves promoting psychological safety, enabling team members to express
+                  ideas, ask questions, and admit mistakes without fear.</p>
+                <p>Key elements for this include:</p>
+                <ul>
+                  <li>Active Listening &amp; Empathy</li>
+                  <li>Fairness &amp; Transparency</li>
+                  <li>Recognition &amp; Appreciation</li>
+                  <li>Open Communication &amp; Feedback</li>
+                  <li>Actively recruit diverse teams in terms of personality and ensure all voices are heard and valued.</li>
+                </ul>
+              </div>
+              <div class="card">
+                <h4>💡 What it means in practice</h4>
+                <ul>
+                  <li>Ensure <strong>voice equity</strong>: quieter folks get surfaced; no idea is mocked.</li>
+                  <li>Model <strong>vulnerability</strong> (admit mistakes); respond to risks with curiosity, not punishment.</li>
+                  <li><strong>Inclusion in rituals</strong>: "risk round" in stand-up, "mistake of the week," <strong>decision log</strong> so commitments are transparent.</li>
+                  <li>Build psychological safety</li>
+                  <li>Understand and respect differences in personalities</li>
+                </ul>
+              </div>
+              <div class="card">
+                <h4>🛠️ Frameworks & tools</h4>
+                <ul>
+                  <li><strong>Psychological Safety</strong> (Edmondson).</li>
+                  <li><strong>Five Dysfunctions</strong> (Lencioni) to diagnose trust/conflict/accountability.</li>
+                  <li><strong>SCARF</strong> (Status, Certainty, Autonomy, Relatedness, Fairness) to reduce threat.</li>
+                  <li><strong>DISC / RYGB</strong> (Surrounded By Idiots)</li>
+                </ul>
+              </div>
+              <div class="card">
+                <h4>📈 Level & learning sequence</h4>
+                <p><span class="kicker">Learn now:</span> Build safety in rituals; ban blamey language and behavior.</p>
+                <p><span class="kicker">Build next:</span> Team norms & decision hygiene. Psych safety survey/check.</p>
+                <p><span class="kicker">Deepen:</span> Facilitate conflict productively across teams.</p>
+              </div>
+              <div class="card">
+                <h4>⚠️ Personality watch-outs</h4>
+                <ul>
+                  <li><strong>Goal-oriented:</strong> Speed over voice → missed risks.</li>
+                  <li><strong>People-oriented:</strong> Harmony over truth → faux commitment.</li>
+                  <li><strong>Tech-challenge:</strong> Nitpicky reviews → silence from juniors.</li>
+                </ul>
+              </div>
+              <div class="card card-span">
+                <h4>🎓 Course mapping <span class="legend"><span>🟡 Leadership Principles – People</span><span>🟡 Team Management And Dynamics</span><span>🟡 Conflict Management</span><span>✅ Team Morale &amp; Well-Being</span></span></h4>
+              </div>
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <!-- 4) Focus on productivity and results -->
+      <section id="u4" data-bg="var(--bg-4)">
+        <details class="unit">
+          <summary class="unit-title"><span class="idx">4</span>Focus on productivity and results <span
+              class="chev"></span></summary>
+          <div class="content">
+            <div class="grid">
+              <div class="card card-span">
+                <p>Shift from “busy” to valuable. Tie work to clear outcomes. Create predictable results, make
+                  throughput visible, ensure fewer nasty surprises, and less "heroic" sprints.</p>
+              </div>
+              <div class="card">
+                <h4>💡 What it means in practice</h4>
+                <ul>
+                  <li>Move from <strong>busy</strong> to <strong>valuable</strong>: connect work to outcomes.</li>
+                  <li>Track a small, stable set of <strong>health + delivery</strong> metrics; review weekly / bi-weekly.</li>
+                  <li>Remove <strong>systemic friction</strong> (review cycle time, flaky tests, unclear ownership).</li>
+                  <li>Nurture productivity-increasing learning, practices, processes and tools</li>
+                </ul>
+              </div>
+              <div class="card">
+                <h4>🛠️ Frameworks & tools</h4>
+                <ul>
+                  <li><strong>Flow metrics</strong> (WIP, cycle time, throughput).</li>
+                  <li><strong>DORA</strong> metrics (deploy frequency, lead time, MTTR, change fail %).</li>
+                  <li><strong>Constraints thinking</strong> (find the bottleneck, fix the system).</li>
+                  <li><strong>Decision/commitment</strong> logs to avoid re-deciding.</li>
+                </ul>
+              </div>
+              <div class="card">
+                <h4>📈 Level & learning sequence</h4>
+                <p><span class="kicker">Learn now:</span> 1–2 delivery + 1 quality + 1 people metric; simple
+                  dashboard.
+                </p>
+                <p><span class="kicker">Build next:</span> Use pre-mortems/post-mortems to learn.</p>
+                <p><span class="kicker">Deepen:</span> Tie metrics to business outcomes with PM.</p>
+              </div>
+              <div class="card">
+                <h4>⚠️ Personality watch-outs</h4>
+                <ul>
+                  <li><strong>Goal-oriented:</strong> Overfit to date; quality debt.</li>
+                  <li><strong>People-oriented:</strong> Avoid tough trade-offs.</li>
+                  <li><strong>Tech-challenge:</strong> Gold-plate internals; ignore outcomes.</li>
+                </ul>
+              </div>
+              <div class="card card-span">
+                <h4>🎓 Course mapping <span class="legend"><span>✅ Metrics That Matter</span><span>✅ Planning &amp;
+                      Execution</span><span>🟡 Streamlining Tech Delivery</span></span></h4>
+              </div>
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <!-- 5) Communicate effectively -->
+      <section id="u5" data-bg="var(--bg-5)">
+        <details class="unit">
+          <summary class="unit-title"><span class="idx">5</span>Communicate effectively <span class="chev"></span>
+          </summary>
+          <div class="content">
+            <div class="grid">
+              <div class="card card-span">
+                <p>New tech leads need to learn strong communication skills to ensure their messages are clear and acted
+                  upon. This involves being fast, concise, precise, and targeted to the right audience through
+                  appropriate channels. They also need to use the right tone to build trust and adapt it for different
+                  situations, as well as motivational language to inspire their teams.</p>
+              </div>
+              <div class="card">
+                <h4>💡 What it means in practice</h4>
+                <ul>
+                  <li>Choose <strong>async vs sync</strong> wisely; write clearly; <strong>close the loop</strong> ("what/why/next").</li>
+                  <li>Upward: <strong>no surprises</strong>, propose options/trade-offs.</li>
+                  <li>Sideways: <strong>avoid gossip</strong>; push issues to the right forum.</li>
+                  <li>Downward: <strong>translate strategy</strong> into clear goals &amp; constraints.</li>
+                  <li>Use motivational reframing and language</li>
+                </ul>
+              </div>
+              <div class="card">
+                <h4>🛠️ Frameworks &amp; tools</h4>
+                <ul>
+                  <li><strong>Decision record</strong> format: Context → Options → Decision → Implications → Owners.</li>
+                  <li><strong>"What/Who/When"</strong> meeting close;</li>
+                  <li><strong>RACI</strong> for ownership.</li>
+                  <li><strong>Use SCQA structure, Pyramid Principle</strong> or similar for clear concise communication.</li>
+                </ul>
+              </div>
+              <div class="card">
+                <h4>📈 Level & learning sequence</h4>
+                <p><span class="kicker">Learn now:</span> Weekly written updates; decision summaries.</p>
+                <p><span class="kicker">Build next:</span> Rewrite status meetings as risk/decision reviews.</p>
+                <p><span class="kicker">Deepen:</span> Written strategy memos; cross-team briefs.</p>
+              </div>
+              <div class="card">
+                <h4>⚠️ Personality watch-outs</h4>
+                <ul>
+                  <li><strong>Goal-oriented:</strong> Broadcasts, not dialogues.</li>
+                  <li><strong>People-oriented:</strong> Over-consults; slow.</li>
+                  <li><strong>Tech-challenge:</strong> Jargon-dense; excludes non-engineers.</li>
+                </ul>
+              </div>
+              <div class="card card-span">
+                <h4>🎓 Course mapping <span class="legend"><span>✅ Effective Communication</span><span>✅ Planning &amp; Execution</span><span>✅ Fundamental – People – Motivation</span></span></h4>
+              </div>
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <!-- 6) Support career development -->
+      <section id="u6" data-bg="var(--bg-6)">
+        <details class="unit">
+          <summary class="unit-title"><span class="idx">6</span>Support career development and discuss performance <span
+              class="chev"></span></summary>
+          <div class="content">
+            <div class="grid">
+              <div class="card card-span">
+                <p>Keep growth live, not annual. Use 1:1s to set a strength-aligned growth goal, shape real practice
+                  opportunities (pairing, rotation), and give specific, timely feedback. Separate coaching conversations
+                  from assessment. Address underperformance early and humanely with clear expectations and support.</p>
+              </div>
+              <div class="card">
+                <h4>💡 What it means in practice</h4>
+                <ul>
+                  <li>Give <strong>specific, timely</strong> feedback (SBI); recognise progress.</li>
+                  <li>Keep <strong>growth plans alive</strong> (strengths, goals, practice opportunities).</li>
+                  <li>Distinguish <strong>coaching vs assessment</strong> conversations; be transparent.</li>
+                </ul>
+              </div>
+              <div class="card">
+                <h4>🛠️ Frameworks &amp; tools</h4>
+                <ul>
+                  <li><strong>GROW</strong> for development goals.</li>
+                  <li><strong>Career ladders</strong> + skill matrices; pairing plan.</li>
+                  <li><strong>Radical Candor</strong> (care personally, challenge directly).</li>
+                  <li><strong>Start–Stop–Continue</strong> in retros/1:1s.</li>
+                </ul>
+              </div>
+              <div class="card">
+                <h4>📈 Level & learning sequence</h4>
+                <p><span class="kicker">Learn now:</span> Quarterly growth goal per person; monthly check-ins.</p>
+                <p><span class="kicker">Build next:</span> Pairing & mentorship loops.</p>
+                <p><span class="kicker">Deepen:</span> Promotion leveling across org, performance improvement plans (PIPs).</p>
+              </div>
+              <div class="card">
+                <h4>⚠️ Personality watch-outs</h4>
+                <ul>
+                  <li><strong>Goal-oriented:</strong> Only outcome feedback; little development.</li>
+                  <li><strong>People-oriented:</strong> Avoid tough feedback; “nice but vague.”</li>
+                  <li><strong>Tech-challenge:</strong> Overweight technical over cross-functional skills.</li>
+                </ul>
+              </div>
+              <div class="card card-span">
+                <h4>🎓 Course mapping <span class="legend"><span>✅ Developing People</span><span>✅ Managing Poor
+                      Performance &amp; Firing</span><span>✅ Team Morale &amp; Well-Being</span></span></h4>
+              </div>
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <!-- 7) Clear vision and strategy -->
+      <section id="u7" data-bg="var(--bg-7)">
+        <details class="unit">
+          <summary class="unit-title"><span class="idx">7</span>Implement a clear vision and strategy <span
+              class="chev"></span></summary>
+          <div class="content">
+            <div class="grid">
+              <div class="card card-span">
+                <p>Translate company direction into <strong>team-level outcomes.</strong> Articulate to the team in an understandable and motivating form: the few goals we'll pursue and why, success signals, and constraints (budget, security, deadlines).</p>
+              </div>
+              <div class="card">
+                <h4>💡 What it means in practice</h4>
+                <ul>
+                  <li><strong>Build Shared Purpose, Vision &amp; Goals:</strong> Clearly articulate the company and team's mission, vision, and goals.</li>
+                  <li>Translate company direction into <strong>team-level objectives</strong> (what we will achieve and why).</li>
+                  <li>Define <strong>constraints</strong> – budget, security, deadlines, risk tolerance, etc.</li>
+                  <li>Align scope with PM; ruthlessly <strong>de-prioritise</strong> work that doesn't advance the vision. Priority should ensure focus.</li>
+                </ul>
+              </div>
+              <div class="card">
+                <h4>🛠️ Frameworks &amp; tools</h4>
+                <ul>
+                  <li><strong>Objectives &amp; Key Results (OKRs)</strong></li>
+                  <li><strong>Strategy reporting</strong> (Context → Problem → Options → Chosen bet → Risks).</li>
+                  <li><strong>Roadmap</strong> as sequence of bets, not a promised feature list.</li>
+                  <li><strong>Cynefin</strong> framework to sense complexity (complicated vs complex).</li>
+                </ul>
+              </div>
+              <div class="card">
+                <h4>📈 Level & learning sequence</h4>
+                <p><span class="kicker">Learn now:</span> One-pager: team mission, 2–3 outcomes, constraints.</p>
+                <p><span class="kicker">Build next:</span> Quarterly outcomes with PM.</p>
+                <p><span class="kicker">Deepen:</span> Portfolio view; manage trade-offs across teams.</p>
+              </div>
+              <div class="card">
+                <h4>⚠️ Personality watch-outs</h4>
+                <ul>
+                  <li><strong>Goal-oriented:</strong> Dates over direction; thrash.</li>
+                  <li><strong>People-oriented:</strong> Tries to please; loses focus.</li>
+                  <li><strong>Tech-challenge:</strong> Internals as strategy; outcomes fade.</li>
+                </ul>
+              </div>
+              <div class="card card-span">
+                <h4>🎓 Course mapping <span class="legend"><span>✅ Leadership Principles – Business</span><span>✅
+                      Planning
+                      &amp; Execution</span></span></h4>
+              </div>
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <!-- 8) Have key technical skills -->
+      <section id="u8" data-bg="var(--bg-8)">
+        <details class="unit">
+          <summary class="unit-title"><span class="idx">8</span>Have key technical skills <span class="chev"></span>
+          </summary>
+          <div class="content">
+            <div class="grid">
+              <div class="card card-span">
+                <p>You don't need to be the top coder; you need <strong>credible judgement</strong>. Facilitate design and resource decisions, review for <strong>risk and outcomes</strong>, and stay close to operability.</p>
+              </div>
+              <div class="card">
+                <h4>💡 What it means in practice</h4>
+                <ul>
+                  <li>Maintain <strong>credible technical judgement</strong> (architecture basics, quality, debugging, operability).</li>
+                  <li>Do <strong>thin slices</strong> of hands-on work to stay current; <strong>don't</strong> own the critical path.</li>
+                  <li>Understand the tech domain well enough to make quick scope vs. effort decisions</li>
+                  <li>Read code &amp; designs efficiently; review for <strong>risk/outcomes</strong>, not style.</li>
+                </ul>
+              </div>
+              <div class="card">
+                <h4>🛠️ Frameworks &amp; tools</h4>
+                <ul>
+                  <li><strong>Architecture decision records (ADRs)</strong> or similar.</li>
+                  <li><strong>Observability/SRE basics</strong> (SLOs, error budgets).</li>
+                  <li><strong>Design review</strong> checklist (inputs/outputs, failure modes, trade-offs).</li>
+                </ul>
+              </div>
+              <div class="card">
+                <h4>📈 Level & learning sequence</h4>
+                <p><span class="kicker">Learn now:</span> System map, on-call shadowing, one small recurring technical
+                  task.</p>
+                <p><span class="kicker">Build next:</span> Facilitate design reviews; teach fundamentals.</p>
+                <p><span class="kicker">Deepen:</span> Participate in building cross-team technical strategy.</p>
+              </div>
+              <div class="card">
+                <h4>⚠️ Personality watch-outs</h4>
+                <ul>
+                  <li><strong>Goal-oriented:</strong> Skip risk thinking; push dates.</li>
+                  <li><strong>People-oriented:</strong> Defer too much; low technical bar.</li>
+                  <li><strong>Tech-challenge:</strong> Manager on paper – becomes the super-IC again.</li>
+                </ul>
+              </div>
+              <div class="card card-span">
+                <h4>🎓 Course mapping <span class="legend"><span>✅ Streamlining Tech Delivery</span><span>✅ Team Design &amp;
+                      Dynamics</span><span>✅ Planning &amp; Execution</span></span></h4>
+              </div>
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <!-- 9) Collaborate across the organisation -->
+      <section id="u9" data-bg="var(--bg-9)">
+        <details class="unit">
+          <summary class="unit-title"><span class="idx">9</span>Collaborate across the organisation <span
+              class="chev"></span></summary>
+          <div class="content">
+            <div class="grid">
+              <div class="card card-span">
+                <p>Your role involves facilitating collaboration and translating the meaning, vision, objectives, risks,
+                  and value into actionable tasks for all internal teams and, at times, customers involved in the
+                  production process.</p>
+              </div>
+              <div class="card">
+                <h4>💡 What it means in practice</h4>
+                <ul>
+                  <li><strong>Understand the business</strong> in depth.</li>
+                  <li><strong>Map stakeholders</strong> (PM, Design, QA, SRE/DevOps, Data, CX, Sales) and know their part in the business and processes.</li>
+                  <li>Agree on <strong>interfaces</strong> (what/why/who info flow, SLAs, escalation paths).</li>
+                  <li>Use <strong>resource levers</strong>, negotiate (Scope, Time, People, Budget/Tools, Quality/Risk, Sequence/Priority); document agreements.</li>
+                </ul>
+              </div>
+              <div class="card">
+                <h4>🛠️ Frameworks &amp; tools</h4>
+                <ul>
+                  <li>Use elements of classic <strong>Project Management</strong></li>
+                  <li><strong>Stakeholder mapping</strong> (power/interest grid).</li>
+                  <li><strong>RACI / DACI / RAPID</strong> for decision/role clarity.</li>
+                  <li><strong>Team Topologies</strong> concepts (team APIs; platform vs stream-aligned teams).</li>
+                  <li><strong>Principled negotiation</strong> (interests vs positions).</li>
+                </ul>
+              </div>
+              <div class="card">
+                <h4>📈 Level & learning sequence</h4>
+                <p><span class="kicker">Learn now:</span> Identify 3 key stakeholders; set a standing sync with agendas.
+                </p>
+                <p><span class="kicker">Build next:</span> Write one cross-team working agreement.</p>
+                <p><span class="kicker">Deepen:</span> Lead a cross-team initiative.</p>
+              </div>
+              <div class="card">
+                <h4>⚠️ Personality watch-outs</h4>
+                <ul>
+                  <li><strong>Goal-oriented:</strong> Pushy; burns bridges.</li>
+                  <li><strong>People-oriented:</strong> Over-accommodates; team or performance suffers.</li>
+                  <li><strong>Tech-challenge:</strong> Ignores non-engineering side of things.</li>
+                </ul>
+              </div>
+              <div class="card card-span">
+                <h4>🎓 Course mapping <span class="legend"><span>🟡 Effective Communication – sideways,
+                      upwards</span><span>✅ Planning &amp; Execution – dependency management</span><span>🟡 Team Design
+                      &amp;
+                      Dynamics – cross-team interfaces</span></span></h4>
+              </div>
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <!-- 10) Make strong decisions -->
+      <section id="u10" data-bg="var(--bg-10)">
+        <details class="unit">
+          <summary class="unit-title"><span class="idx">10</span>Make strong decisions <span class="chev"></span>
+          </summary>
+          <div class="content">
+            <div class="grid">
+              <div class="card card-span">
+                <p>Making decisions is not about guessing the future or being always right as you are the boss, but a
+                  repeatable process that clarifies goals, complexity, importance, capabilities of people and systems,
+                  required information, interdependencies, analyzes impact and charts a chooses a probabilistic path
+                  with contingencies.</p>
+              </div>
+              <div class="card">
+                <h4>💡 What it means in practice</h4>
+                <ul>
+                  <li>Choose <strong>fit-for-context</strong>: reversible vs irreversible, fast vs thorough.</li>
+                  <li>Make trade-offs explicit; <strong>write them down</strong>.</li>
+                  <li>Involve the right people <strong>early enough</strong> to avoid late vetoes; time-box debate.</li>
+                  <li>Decide, <strong>disagree-and-commit</strong> and <strong>execute</strong>.</li>
+                </ul>
+              </div>
+              <div class="card">
+                <h4>🛠️ Frameworks &amp; tools</h4>
+                <ul>
+                  <li><strong>Type 1/Type 2 decisions</strong> (reversible vs not).</li>
+                  <li><strong>OODA</strong> loop (Observe–Orient–Decide–Act).</li>
+                  <li><strong>Cynefin</strong> (simple/complicated/complex/chaotic).</li>
+                  <li><strong>RAPID/DACI</strong> (decision rights).</li>
+                  <li><strong>Pre-mortems</strong>; <strong>decision journals</strong> for learning.</li>
+                </ul>
+              </div>
+              <div class="card">
+                <h4>📈 Level & learning sequence</h4>
+                <p><span class="kicker">Learn now:</span> Decision log cadence; pre-mortem for major items.</p>
+                <p><span class="kicker">Build next:</span> Clarify decision rights with PMs, etc.</p>
+                <p><span class="kicker">Deepen:</span> Portfolio balancing; risk appetite calibration.</p>
+              </div>
+              <div class="card">
+                <h4>⚠️ Personality watch-outs</h4>
+                <ul>
+                  <li><strong>Goal-oriented:</strong> Decide too fast; ignore dissent.</li>
+                  <li><strong>People-oriented:</strong> Analysis paralysis; endless consensus.</li>
+                  <li><strong>Tech-challenge:</strong> Optimize the system, miss the business.</li>
+                </ul>
+              </div>
+              <div class="card card-span">
+                <h4>🎓 Course mapping <span class="legend"><span>✅ Decision-Making Under Uncertainty</span><span>🟡
+                      Planning &amp; Execution</span><span>🟡 Effective Communication (decision comms)</span></span></h4>
+              </div>
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <!-- Bonus: Common Mistakes -->
+      <section id="mistakes" data-bg="var(--bg-1)">
+        <details class="unit">
+          <summary class="unit-title"><span class="idx">📌</span>Bonus: Ten Common First-Time Tech Manager Mistakes <span class="chev"></span></summary>
+          <div class="content">
+            <div class="grid">
+              <div class="card card-span">
+                <p>Based on experience and various sources, here is a compiled list of most common first-time tech lead mistakes.</p>
+              </div>
+              <div class="card card-span">
+                <h4>The Top 10 Mistakes</h4>
+                <ol>
+                  <li><strong>Clinging to coding / reluctance to delegate</strong><br>
+                    New managers often keep the hero IC hat on – coding nights and "saving" projects – rather than multiplying team output. It burns you out and starves the team of growth.</li>
+                  <li><strong>Avoiding (or mishandling) tough feedback</strong><br>
+                    Skipping direct, timely feedback – or routing it through leadership before speaking to the person – erodes trust and performance. New managers frequently lack training here and default to silence or vague hints.</li>
+                  <li><strong>Skipping 1:1s or turning them into status updates</strong><br>
+                    1:1s are for coaching, context, and early issue detection – not checkbox status. Treating them as optional (or as JIRA recaps) is a classic early mistake.</li>
+                  <li><strong>Micromanaging – or the flip side, "trusting without verifying"</strong><br>
+                    First-time managers often swing between over-control (rewriting code, prescribing every step) and abdication (no guardrails, no follow-up). You need calibrated autonomy plus clear standards.</li>
+                  <li><strong>Not setting (or communicating) a simple vision and near-term priorities</strong><br>
+                    Teams stall when they can't see how work contributes. "We're busy" ≠ direction. New managers commonly do not articulate their guiding principles well enough.</li>
+                  <li><strong>Withholding context from the team</strong><br>
+                    People can't make good decisions without product, customer, and business constraints. Managers who keep context up-top unknowingly throttle velocity and morale.</li>
+                  <li><strong>Trying to change everything at once</strong><br>
+                    Big-bang fixes (process, tools, org) create thrash. The better path is a few visible, compounding improvements.</li>
+                  <li><strong>Letting underperformance linger</strong><br>
+                    Conflict-avoidance leads to months of ambiguity that hurt the whole team. Address it early, directly, and humanely.</li>
+                  <li><strong>Hiring and onboarding missteps</strong><br>
+                    Rushing hires, overweighting "mirror" candidates, and weak onboarding are expensive early errors for new managers. They ripple for quarters.</li>
+                  <li><strong>Try to do it alone (no help from peers, mentors)</strong><br>
+                    First-time EMs who go it alone struggle more and longer. Deliberately assemble mentors/peers and ask for help.</li>
+                </ol>
+              </div>
+              <div class="card card-span">
+                <h4>How these mistakes might derail your path to being a highly performing manager</h4>
+                <ul>
+                  <li>Mistake <strong>#1</strong> (cling to coding) ▶️ might affect Oxygen <strong>#2</strong> (empower, don't micromanage) and <strong>#8</strong> (technical skills to advise). Possibly affect <strong>#3</strong> (environment) as doing the work by themselves may signal distrust in other members.</li>
+                  <li>Mistake <strong>#2</strong> (avoid feedback) + <strong>#3</strong> (skip 1:1s) ▶️ Oxygen <strong>#1</strong> (coach) and <strong>#6</strong> (career &amp; performance).</li>
+                  <li>Mistake <strong>#4</strong> (over/under-control) ▶️ Oxygen <strong>#2</strong> (empower with standards) and <strong>#10</strong> (strong decisions).</li>
+                  <li>Mistake <strong>#5</strong> (no vision/priorities) ▶️ Oxygen <strong>#7</strong> (vision/strategy).</li>
+                  <li>Mistake <strong>#6</strong> (withhold context/poor communication) ▶️ Oxygen <strong>#5</strong> (communicate) and <strong>#3</strong> (inclusive, safe env.).</li>
+                  <li>Mistake <strong>#7</strong> (change everything at once) ▶️ Oxygen <strong>#4</strong> (results-oriented) – focus on few compounding improvements.</li>
+                  <li>Mistake <strong>#8</strong> (let underperformance linger) ▶️ Oxygen <strong>#6</strong> (discuss performance) + <strong>#10</strong> (make decisions).</li>
+                  <li>Mistake <strong>#9</strong> (hiring/onboarding missteps) ▶️ Oxygen <strong>#4</strong> (results) and <strong>#6</strong> (growth) – high-leverage manager work.</li>
+                  <li>Mistake <strong>#10</strong> (do it alone) ▶️ Oxygen <strong>#9</strong> (collaborate across org) – get peers/mentors.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <!-- References -->
+      <section id="references" data-bg="var(--bg-2)">
+        <details class="unit">
+          <summary class="unit-title"><span class="idx">📚</span>References &amp; Resources <span class="chev"></span></summary>
+          <div class="content">
+            <div class="grid">
+              <div class="card card-span">
+                <h4>References &amp; Resources</h4>
+                <ul>
+                  <li><a href="https://rework.withgoogle.com/intl/en/guides/managers-research-behind-great-managers" target="_blank">Project Oxygen</a></li>
+                  <li><a href="https://online.hbs.edu/blog/post/first-time-manager-tips" target="_blank">9 Mistakes to Avoid as a First-Time Manager | HBS Online</a></li>
+                  <li><a href="https://hbr.org/2023/09/mistakes-first-time-managers-make-when-giving-feedback" target="_blank">Mistakes First-Time Managers Make When Giving Feedback</a></li>
+                  <li><a href="https://leaddev.com/hiring/four-mistakes-i-made-new-manager" target="_blank">Four mistakes I made as a new manager – LeadDev</a></li>
+                  <li><a href="https://medium.com/@misbahafzal.k/10-mistakes-engineering-leaders-make-that-kill-team-morale-b70f570751f0" target="_blank">10 Mistakes Engineering Leaders Make (That Kill Team Morale)</a></li>
+                  <li><a href="https://review.firstround.com/the-engineers-guide-to-career-growth-advice-from-my-time-at-stripe-and-facebook/" target="_blank">The Engineer's Guide to Career Growth — Advice from My Time at Stripe and Facebook</a></li>
+                  <li><a href="https://leaddev.com/leadership/learnings-my-first-90-days-engineering-manager" target="_blank">Learnings from my first 90 days as an engineering manager – LeadDev</a></li>
+                  <li><a href="https://ww.telerikacademy.com/blog/from-maker-to-multiplier-what-makes-a-great-tech-lead-and-how-to-grow-into-the-role" target="_blank">From Maker to Multiplier: What Makes a Great Tech Lead — And How to Grow Into the Role</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <section>
+        <div class="card">
+          <h4>Legend</h4>
+          <p><span class="pill">✅ Covered</span><span class="pill">🟡 Touched</span><span class="pill">🔷
+              Advanced/Optional</span></p>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script>
+    // Smooth scroll for sidebar with proper expansion
+    document.querySelectorAll('.toc a').forEach(a => {
+      a.addEventListener('click', (e) => {
+        e.preventDefault();
+        const id = a.getAttribute('href');
+        const section = document.querySelector(id);
+        const details = section.querySelector('details.unit');
+        
+        // Open the details element if it's not already open
+        if (details && !details.open) {
+          details.open = true;
+        }
+        
+        // Scroll after a brief delay to account for the details expansion
+        setTimeout(() => {
+          section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+      });
+    });
+
+    // IntersectionObserver to: 1) highlight TOC; 2) change background by section
+    const sections = document.querySelectorAll('main section');
+    const tocLinks = Array.from(document.querySelectorAll('.toc a'));
+    const opts = { root: null, rootMargin: '-30% 0px -60% 0px', threshold: 0 };
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = '#' + entry.target.id;
+          tocLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === id));
+          const bg = entry.target.dataset.bg;
+          if (bg) { document.body.style.background = bg; document.body.style.backgroundAttachment = 'fixed'; }
+        }
+      })
+    }, opts);
+    sections.forEach(s => io.observe(s));
+
+    // Expand/collapse single-open behaviour disabled to allow multiple sections open
+    // document.querySelectorAll('details.unit').forEach(d => {
+    //   d.addEventListener('toggle', () => {
+    //     if (d.open) {
+    //       document.querySelectorAll('details.unit').forEach(other => { if (other !== d) other.open = false; });
+    //     }
+    //   })
+    // });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Morale Reality Check: Nine Lies About Work – Interactive Handout</title>
+  <style>
+    :root{
+      --bg-1: radial-gradient(1200px 600px at 20% -10%, #9dd6ff25, transparent 60%),
+              radial-gradient(1000px 600px at 90% 20%, #c8b6ff20, transparent 60%),
+              linear-gradient(180deg, #080c18, #0d1220 60%, #080c18);
+      --bg-2: radial-gradient(1200px 600px at 10% 0%, #b2f7ef30, transparent 60%),
+              radial-gradient(1000px 600px at 80% 20%, #eef7a128, transparent 60%),
+              linear-gradient(180deg, #0a0f1c, #0f1628 60%, #0a0f1c);
+      --bg-3: radial-gradient(1200px 600px at 10% 0%, #ffd6a535, transparent 60%),
+              radial-gradient(1000px 600px at 80% 20%, #ffcad430, transparent 60%),
+              linear-gradient(180deg, #0a0f1c, #12151f 60%, #0a0f1c);
+      --bg-4: radial-gradient(1200px 600px at 20% 0%, #a8e6cf35, transparent 60%),
+              radial-gradient(1000px 600px at 80% 20%, #dcedc130, transparent 60%),
+              linear-gradient(180deg, #080e16, #0d1a0f 60%, #080e16);
+      --bg-5: radial-gradient(1200px 600px at 20% 0%, #b5e0ff35, transparent 60%),
+              radial-gradient(1000px 600px at 80% 20%, #ffd1dc35, transparent 60%),
+              linear-gradient(180deg, #080e1a, #0c1b2a 60%, #080e1a);
+      --bg-6: radial-gradient(1200px 600px at 20% 0%, #c7ffd835, transparent 60%),
+              radial-gradient(1000px 600px at 80% 20%, #f7d6ff35, transparent 60%),
+              linear-gradient(180deg, #080c16, #13141f 60%, #080c16);
+      --bg-7: radial-gradient(1200px 600px at 20% 0%, #c3f0ca35, transparent 60%),
+              radial-gradient(1000px 600px at 80% 20%, #a3d5ff35, transparent 60%),
+              linear-gradient(180deg, #080c16, #0b1a2a 60%, #080c16);
+      --bg-8: radial-gradient(1200px 600px at 20% 0%, #ffd4b835, transparent 60%),
+              radial-gradient(1000px 600px at 80% 20%, #b8e1ff35, transparent 60%),
+              linear-gradient(180deg, #080c16, #131729 60%, #080c16);
+      --bg-9: radial-gradient(1200px 600px at 20% 0%, #ffe3a335, transparent 60%),
+              radial-gradient(1000px 600px at 80% 20%, #c1ffd735, transparent 60%),
+              linear-gradient(180deg, #080c16, #0f1f28 60%, #080c16);
+
+      --card-bg: rgba(255,255,255,0.06);
+      --card-stroke: rgba(255,255,255,0.14);
+      --text: #cadbf4;
+      --muted: #a9b6d3;
+      --accent: #8bd3ff;
+      --link: #9bd1ff;
+      --good: #a8ffd7;
+      --warn: #ffd89a;
+      --bad: #ffb3c0;
+    }
+
+    html, body { height:100%; }
+    body{
+      margin:0;
+      font:16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Helvetica Neue", Arial, "Noto Sans";
+      color:var(--text);
+      background:var(--bg-1);
+      background-attachment: fixed;
+      transition: background 600ms ease;
+    }
+
+    .app{
+      display:grid;
+      grid-template-columns: 300px 1fr;
+      gap:24px;
+      max-width: 1400px;
+      margin:0 auto;
+      padding:24px;
+      align-items:start;
+    }
+
+    /* Sidebar */
+    .nav{
+      position:sticky;
+      top:16px;
+      height: calc(100vh - 32px);
+      overflow:auto;
+      padding:12px;
+      border:1px solid var(--card-stroke);
+      border-radius:16px;
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+    }
+    .nav h1{
+      font-size: 20px;
+      margin:0 0 8px 0;
+      letter-spacing: .3px;
+    }
+    .nav p{
+      color: var(--muted);
+      margin:0 0 12px 0;
+      font-size: 14px;
+    }
+    .toc{
+      list-style:none;
+      padding:0;
+      margin:0;
+    }
+    .toc li{ margin:0; }
+    .toc a{
+      display:flex;
+      gap:6px;
+      text-decoration:none;
+      color: var(--link);
+      padding:8px 10px;
+      border-radius:10px;
+      border:1px solid transparent;
+      align-items:center;
+    }
+    .toc a.active{
+      background: rgba(255,255,255,0.08);
+      border-color: var(--card-stroke);
+    }
+    .foot{
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 10px;
+    }
+
+    /* Main */
+    main{
+      display:flex;
+      flex-direction:column;
+      gap:24px;
+    }
+    header.hero{
+      padding:18px;
+      border:1px solid var(--card-stroke);
+      border-radius:16px;
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+    }
+    header.hero h2{
+      margin:0 0 6px 0;
+      font-weight: 800;
+      letter-spacing: .2px;
+    }
+    header.hero p{
+      margin:0;
+      color: var(--muted);
+    }
+
+    details.unit{
+      border:1px solid var(--card-stroke);
+      border-radius:16px;
+      overflow:hidden;
+      background: var(--card-bg);
+    }
+    summary.unit-title{
+      list-style:none;
+      padding:18px 56px 18px 18px;
+      cursor:pointer;
+      position:relative;
+      font-size: 18px;
+      font-weight: 650;
+      letter-spacing: .2px;
+      color: var(--accent);
+    }
+    summary.unit-title::-webkit-details-marker{ display:none; }
+
+    .idx{
+      display:inline-grid;
+      place-items:center;
+      width:28px;
+      height:28px;
+      border-radius:8px;
+      background: rgba(255,255,255,0.12);
+      border:1px solid var(--card-stroke);
+      margin-right:10px;
+      font-weight: 700;
+      font-size: 14px;
+      color:#dbe8ff;
+    }
+    .chev{
+      position:absolute;
+      right:12px;
+      top:50%;
+      translate: 0 -50%;
+      width:10px;
+      height:10px;
+      border-right:2px solid #d6e6ff;
+      border-bottom:2px solid #d6e6ff;
+      rotate:-45deg;
+      transition: transform 200ms ease;
+    }
+    details[open] .chev{ transform: rotate(45deg); }
+
+    .content{ padding: 0 18px 18px 18px; }
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(2, minmax(280px, 1fr));
+      gap:14px;
+    }
+    @media (max-width: 920px){ .grid{ grid-template-columns: 1fr; } }
+
+    .card{
+      border:1px solid var(--card-stroke);
+      border-radius:14px;
+      padding:14px;
+      background: rgba(255,255,255,0.04);
+    }
+    .card-span{ grid-column: 1 / -1; }
+
+    .card h4{
+      margin:0 0 8px 0;
+      font-size: 15px;
+      letter-spacing: .2px;
+      color: var(--accent);
+    }
+    .card p{ margin: 0 0 8px 0; }
+    .card ul{ margin:0; padding-left: 18px; }
+    .muted{ color: var(--muted); }
+
+    .pill{
+      display:inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--card-stroke);
+      background: rgba(255,255,255,0.06);
+      font-size: 12px;
+      margin: 3px 6px 0 0;
+      color: #dbe8ff;
+      white-space: nowrap;
+    }
+    .pill.good{ border-color: rgba(168,255,215,0.35); color: var(--good); }
+    .pill.warn{ border-color: rgba(255,216,154,0.35); color: var(--warn); }
+    .pill.bad{  border-color: rgba(255,179,192,0.35); color: var(--bad); }
+
+    a{ color: var(--link); text-decoration:none; border-bottom: 1px solid transparent; }
+    a:hover{ border-bottom-color: var(--link); }
+
+    section{ scroll-margin-top: 16px; }
+  </style>
+</head>
+
+<body>
+  <div class="app">
+    <aside class="nav">
+      <h1>Morale Reality Check</h1>
+      <p>Through the lens of Nine Lies About Work, a practical query toolkit.</p>
+      <p class="muted" style="text-align:right; font-size:x-small;">Mihail Valkov, Telerik Academy</p>
+
+      <ul class="toc" id="toc">
+        <li><a href="#how"><span class="idx">?</span>How to use</a></li>
+        <li><a href="#l1"><span class="idx">1</span>Lie 1: Company vs team</a></li>
+        <li><a href="#l2"><span class="idx">2</span>Lie 2: Plan wins</a></li>
+        <li><a href="#l3"><span class="idx">3</span>Lie 3: Cascade goals</a></li>
+        <li><a href="#l4"><span class="idx">4</span>Lie 4: Well-rounded</a></li>
+        <li><a href="#l5"><span class="idx">5</span>Lie 5: Feedback</a></li>
+        <li><a href="#l6"><span class="idx">6</span>Lie 6: Ratings</a></li>
+        <li><a href="#l7"><span class="idx">7</span>Lie 7: Potential</a></li>
+        <li><a href="#l8"><span class="idx">8</span>Lie 8: Balance</a></li>
+        <li><a href="#l9"><span class="idx">9</span>Lie 9: Leadership</a></li>
+        <li><a href="#refs"><span class="idx">📚</span>References</a></li>
+      </ul>
+    </aside>
+
+    <main>
+      <header class="hero">
+        <h2>Team Morale Handout: “Nine Lies About Work”</h2>
+        <p>
+          Each “lie” is a common assumption that can quietly damage morale. The “reality check” gives a better lens.
+          Use the questions to run pulse checks, 1:1 questions, or experience-based 360 feedback.
+        </p>
+      </header>
+
+      <!-- How to use -->
+      <section id="how" data-bg="var(--bg-1)">
+        <details class="unit" open>
+          <summary class="unit-title"><span class="idx">?</span>How to use this handout <span class="chev"></span></summary>
+          <div class="content">
+            <div class="grid">
+              <div class="card card-span">
+                <p>
+                  This is a down-to-earth guide - a way to notice where your default management assumptions are creating hidden
+                  morale traps. If you manage as if a lie is true, you will often reach for the wrong solutions.
+                </p>
+              </div>
+              <div class="card">
+                <h4>✅ Suggested cadence</h4>
+                <ul>
+                  <li><strong>Monthly:</strong> pick 2 lies that feel relevant, ask 1–2 questions from each.</li>
+                  <li><strong>Weekly:</strong> use 1 short 1:1 question (energy, friction, clarity, momentum).</li>
+                  <li><strong>Quarterly:</strong> run a short anonymous pulse scan.</li>
+                </ul>
+              </div>
+              <div class="card">
+                <h4>🧠 Rule of thumb</h4>
+                <ul>
+                  <li>Prefer <strong>experience-based</strong> prompts over “rate the person” prompts.</li>
+                  <li>Ask for <strong>examples</strong>. Without examples, you get opinions and politics.</li>
+                  <li>Look for <strong>patterns</strong>, not single mistakes or opinions.</li>
+                </ul>
+              </div>
+              <div class="card card-span">
+                <h4>Legend</h4>
+                <p>
+                  <span class="pill good">Pulse</span>
+                  <span class="pill warn">1:1</span>
+                  <span class="pill bad">360</span>
+                </p>
+              </div>
+              <div class="foot">
+                Tip: pick 1–2 questions per lie, not all of them. Rotate monthly.
+              </div>
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <!-- Lie 1 -->
+      <section id="l1" data-bg="var(--bg-2)">
+        <details class="unit">
+          <summary class="unit-title"><span class="idx">1</span>Lie #1: People care which company they work for <span class="chev"></span></summary>
+          <div class="content">
+            <div class="grid">
+              <div class="card card-span">
+                <p>
+                  Leaders often blame morale on “the company” because it’s abstract and out of reach. In reality, most people
+                  experience work through the daily behaviours of their immediate team: clarity, fairness, trust, workload,
+                  recognition, and the manager’s habits. If you buy the lie, you will try to fix morale with perks and slogans
+                  instead of fixing the team environment.
+                </p>
+              </div>
+              <div class="card">
+                <h4>⚠️ Morale trap</h4>
+                <p>Over-invest in “company culture” and under-invest in the daily team experience.</p>
+              </div>
+              <div class="card">
+                <h4>✅ Reality check</h4>
+                <p>Morale is mostly local (team + manager).</p>
+              </div>
+              <div class="card">
+                <h4><span class="pill good">Pulse</span> Example items</h4>
+                <ul>
+                  <li>At work, I have the opportunity to do what I do best every day.</li>
+                  <li>I am excited about the future of this team.</li>
+                </ul>
+              </div>
+              <div class="card">
+                <h4><span class="pill warn">1:1</span> Questions</h4>
+                <ul>
+                  <li>If you could change one thing about our team’s day-to-day, what would it be?</li>
+                </ul>
+              </div>
+              <div class="card card-span">
+                <h4><span class="pill bad">360</span> Experience-based prompt</h4>
+                <ul>
+                  <li>Working on this team, what most improves or harms your daily experience?</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <!-- Lie 2 -->
+      <section id="l2" data-bg="var(--bg-3)">
+        <details class="unit">
+          <summary class="unit-title"><span class="idx">2</span>Lie #2: The best plan wins <span class="chev"></span></summary>
+          <div class="content">
+            <div class="grid">
+              <div class="card card-span">
+                <p>
+                  Planning is useful, but in complex work it is never complete. When a team treats the plan as truth, people
+                  stop thinking, stop reporting reality, and start protecting themselves. Morale drops through thrash and blame.
+                  The healthier move is to build an “intelligence loop”: frequent reality checks, fast learning, and clear trade-offs.
+                </p>
+              </div>
+              <div class="card">
+                <h4>⚠️ Morale trap</h4>
+                <p>Rigid plans may create thrash, blame, and learned helplessness.</p>
+              </div>
+              <div class="card">
+                <h4>✅ Reality check</h4>
+                <p>In complex work, the best intelligence + feedback loops win.</p>
+              </div>
+              <div class="card">
+                <h4><span class="pill good">Pulse</span> Example items</h4>
+                <ul>
+                  <li>My team is clear on our goals.</li>
+                  <li>I know what is expected of me in my role.</li>
+                </ul>
+              </div>
+              <div class="card">
+                <h4><span class="pill warn">1:1</span> Questions</h4>
+                <ul>
+                  <li>What’s the most important thing we’re currently missing or misunderstanding?</li>
+                </ul>
+              </div>
+              <div class="card card-span">
+                <h4><span class="pill bad">360</span> Experience-based prompt</h4>
+                <ul>
+                  <li>Where do you see reality diverging from the plan? Give one concrete example.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <!-- Lie 3 -->
+      <section id="l3" data-bg="var(--bg-4)">
+        <details class="unit">
+          <summary class="unit-title"><span class="idx">3</span>Lie #3: The best companies cascade goals <span class="chev"></span></summary>
+          <div class="content">
+            <div class="grid">
+              <div class="card card-span">
+                <p>
+                  Cascading goals can create alignment, but it also creates theatre: busywork, gaming, and “OKR compliance”
+                  without commitment. Morale suffers when people cannot connect work to meaning and impact. The practical fix is not
+                  more OKRs, but better context: why we are doing this, what trade-offs we made, and how success helps customers.
+                </p>
+              </div>
+              <div class="card">
+                <h4>⚠️ Morale trap</h4>
+                <p>OKRs may feel imposed and meaningless. People disconnect, disengage, or game the system.</p>
+              </div>
+              <div class="card">
+                <h4>✅ Reality check</h4>
+                <p>Cascade meaning (why), not just targets.</p>
+              </div>
+              <div class="card">
+                <h4><span class="pill good">Pulse</span> Example items</h4>
+                <ul>
+                  <li>I am proud of the work my team does.</li>
+                  <li>My manager is effective at setting clear expectations for my work.</li>
+                </ul>
+              </div>
+              <div class="card">
+                <h4><span class="pill warn">1:1</span> Questions</h4>
+                <ul>
+                  <li>Which goal feels meaningful, and which feels like bullsh*t (or noise)? Why?</li>
+                </ul>
+              </div>
+              <div class="card card-span">
+                <h4><span class="pill bad">360</span> Experience-based prompt</h4>
+                <ul>
+                  <li>Where do you lack context on why we’re doing something?</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <!-- Lie 4 -->
+      <section id="l4" data-bg="var(--bg-5)">
+        <details class="unit">
+          <summary class="unit-title"><span class="idx">4</span>Lie #4: The best people are well-rounded <span class="chev"></span></summary>
+          <div class="content">
+            <div class="grid">
+              <div class="card card-span">
+                <p>
+                  “Well-rounded” sounds fair, but it quietly tells people they are not "perfect". High-performing teams are usually built from distinct strengths: people who are spiky
+                  in different ways, combined deliberately. Morale improves when people feel valued for what they're worth not constantly judged on their weaknesses.
+                </p>
+              </div>
+              <div class="card">
+                <h4>⚠️ Morale trap</h4>
+                <p>People feel constantly “not enough” and spend energy masking weaknesses.</p>
+              </div>
+              <div class="card">
+                <h4>✅ Reality check</h4>
+                <p>Great teams are built from spiky individuals with diverse strengths.</p>
+              </div>
+              <div class="card">
+                <h4><span class="pill good">Pulse</span> Example items</h4>
+                <ul>
+                  <li>In the last month(s), I have had the opportunity to use my strengths.</li>
+                  <li>I am challenged enough to grow in my role.</li>
+                </ul>
+              </div>
+              <div class="card">
+                <h4><span class="pill warn">1:1</span> Questions</h4>
+                <ul>
+                  <li>What work makes you feel at your best here? What do you want 20% more of?</li>
+                </ul>
+              </div>
+              <div class="card card-span">
+                <h4><span class="pill bad">360</span> Experience-based prompt</h4>
+                <ul>
+                  <li>Where does this person create the best value? Where do you want them used more?</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <!-- Lie 5 -->
+      <section id="l5" data-bg="var(--bg-6)">
+        <details class="unit">
+          <summary class="unit-title"><span class="idx">5</span>Lie #5: People need feedback <span class="chev"></span></summary>
+          <div class="content">
+            <div class="grid">
+              <div class="card card-span">
+                <p>
+                  Many organisations overdose on evaluation. When feedback becomes constant judgement, people get defensive,
+                  anxious, and performative. The healthier move is “attention”: noticing what someone does well, reinforcing it,
+                  and guiding growth with care. Recognition and coaching then become morale stabilisers, not stressors.
+                </p>
+              </div>
+              <div class="card">
+                <h4>⚠️ Morale trap</h4>
+                <p>Constant judgement mode leads to defensiveness, anxiety, and performative conversations.</p>
+              </div>
+              <div class="card">
+                <h4>✅ Reality check</h4>
+                <p>People need attention (noticed at their best, guided with care).</p>
+              </div>
+              <div class="card">
+                <h4><span class="pill good">Pulse</span> Example items</h4>
+                <ul>
+                  <li>My manager cares about my growth and development.</li>
+                  <li>My manager notices when I do something well.</li>
+                </ul>
+              </div>
+              <div class="card">
+                <h4><span class="pill warn">1:1</span> Questions</h4>
+                <ul>
+                  <li>When did you feel most seen recently? When did you feel invisible?</li>
+                </ul>
+              </div>
+              <div class="card card-span">
+                <h4><span class="pill bad">360</span> Experience-based prompt</h4>
+                <ul>
+                  <li>What does your manager (or this person) do that makes others feel valued and noticed?</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <!-- Lie 6 -->
+      <section id="l6" data-bg="var(--bg-7)">
+        <details class="unit">
+          <summary class="unit-title" style="left: 1px;"><span class="idx">6</span>Lie #6: People can reliably rate other people <span class="chev"></span></summary>
+          <div class="content">
+            <div class="grid">
+              <div class="card card-span">
+                <p>
+                  Ratings feel objective, but they invite bias, politics, and resentment. They also push people to judge traits
+                  rather than describe impact. A stronger approach is experience-based feedback: people may be wrong about your
+                  intent, but they can reliably report how your behaviour affected their clarity, speed, motivation, or safety.
+                </p>
+              </div>
+              <div class="card">
+                <h4>⚠️ Morale trap</h4>
+                <p>Ratings politics, perceived unfairness, quiet resentment, and biased outcomes.</p>
+              </div>
+              <div class="card">
+                <h4>✅ Reality check</h4>
+                <p>People can reliably rate their own experience, not “someone’s traits”.</p>
+              </div>
+              <div class="card">
+                <h4><span class="pill good">Pulse</span> Example items</h4>
+                <ul>
+                  <li>My manager is effective at communicating with the team.</li>
+                  <li>I feel respected when I share my ideas and opinions.</li>
+                </ul>
+              </div>
+              <div class="card">
+                <h4><span class="pill warn">1:1</span> Questions</h4>
+                <ul>
+                  <li>Tell me about a recent interaction with me that helped you, and one that made things harder.</li>
+                </ul>
+              </div>
+              <div class="card card-span">
+                <h4><span class="pill bad">360</span> Experience-based prompt</h4>
+                <ul>
+                  <li>Working with X, I’m most effective when… / I lose time or clarity when… (give example)</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <!-- Lie 7 -->
+      <section id="l7" data-bg="var(--bg-8)">
+        <details class="unit">
+          <summary class="unit-title"><span class="idx">7</span>Lie #7: People have potential <span class="chev"></span></summary>
+          <div class="content">
+            <div class="grid">
+              <div class="card card-span">
+                <p>
+                  “Potential” labels create status games and boxes around identities. Teams start investing in a select few and quietly
+                  giving up on the rest. Morale suffers because people stop seeing a path. A better focus is momentum: is someone
+                  moving forward, stuck, or sliding back, and what conditions change that?
+                </p>
+              </div>
+              <div class="card">
+                <h4>⚠️ Morale trap</h4>
+                <p>Boxes around identities, status games, stalled growth for others, identity labels.</p>
+              </div>
+              <div class="card">
+                <h4>✅ Reality check</h4>
+                <p>Focus on momentum (are they moving forward, and what helps).</p>
+              </div>
+              <div class="card">
+                <h4><span class="pill good">Pulse</span> Example items</h4>
+                <ul>
+                  <li>I have opportunities to take on new challenges and responsibilities.</li>
+                  <li>I have the sense that I am growing, compared to myself a quarter/year ago.</li>
+                </ul>
+              </div>
+              <div class="card">
+                <h4><span class="pill warn">1:1</span> Questions</h4>
+                <ul>
+                  <li>Do you feel you’re gaining momentum or losing it? What’s the biggest blocker?</li>
+                </ul>
+              </div>
+              <div class="card card-span">
+                <h4><span class="pill bad">360</span> Experience-based prompt</h4>
+                <ul>
+                  <li>What conditions help this person thrive and move fast? What slows this person down?</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <!-- Lie 8 -->
+      <section id="l8" data-bg="var(--bg-9)">
+        <details class="unit">
+          <summary class="unit-title"><span class="idx">8</span>Lie #8: Work-life balance matters most <span class="chev"></span></summary>
+          <div class="content">
+            <div class="grid">
+              <div class="card card-span">
+                <p>
+                  “Balance” is personal and vague. In practice it often turns into guilt, PR, or generic advice while work stays
+                  painful. A more actionable lens is “love-in-work”: increase the parts of the job that energise and fit someone’s
+                  strengths, and reduce (or redesign) the parts they dread.
+                </p>
+              </div>
+              <div class="card">
+                <h4>⚠️ Morale trap</h4>
+                <p>Balance talk becomes guilt or PR while work stays draining. “Balance” is not universal.</p>
+              </div>
+              <div class="card">
+                <h4>✅ Reality check</h4>
+                <p>What matters is love-in-work (more of what energises, less of what people loathe).</p>
+              </div>
+              <div class="card">
+                <h4><span class="pill good">Pulse</span> Example items</h4>
+                <ul>
+                  <li>I feel energised and engaged in my work.</li>
+                  <li>The work I do is meaningful.</li>
+                </ul>
+              </div>
+              <div class="card">
+                <h4><span class="pill warn">1:1</span> Questions</h4>
+                <ul>
+                  <li>Which part of your work do you genuinely enjoy? Which part do you dread?</li>
+                </ul>
+              </div>
+              <div class="card card-span">
+                <h4><span class="pill bad">360</span> Experience-based prompt</h4>
+                <ul>
+                  <li>What part of the role seems energising vs draining for this person lately?</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <!-- Lie 9 -->
+      <section id="l9" data-bg="var(--bg-2)">
+        <details class="unit">
+          <summary class="unit-title"><span class="idx">9</span>Lie #9: Leadership is a thing <span class="chev"></span></summary>
+          <div class="content">
+            <div class="grid">
+              <div class="card card-span">
+                <p>
+                  New leaders often chase a checklist and accidentally perform “leadership theatre”. The real work is influence:
+                  creating clarity, confidence, and trust. People follow distinct strengths and leaders who reduce uncertainty
+                  by making trade-offs visible, protecting focus, and being consistent.
+                </p>
+              </div>
+              <div class="card">
+                <h4>⚠️ Morale trap</h4>
+                <p>You chase a leadership checklist and miss the real clarity and certainty work.</p>
+              </div>
+              <div class="card">
+                <h4>✅ Reality check</h4>
+                <p>People follow distinct strengths and leaders who create certainty.</p>
+              </div>
+              <div class="card">
+                <h4><span class="pill good">Pulse</span> Example items</h4>
+                <ul>
+                  <li>My manager provides me with the support I need to succeed.</li>
+                </ul>
+              </div>
+              <div class="card">
+                <h4><span class="pill warn">1:1</span> Questions</h4>
+                <ul>
+                  <li>Where do you feel uncertain about decisions or priorities? What clarity would help?</li>
+                </ul>
+              </div>
+              <div class="card card-span">
+                <h4><span class="pill bad">360</span> Experience-based prompt</h4>
+                <ul>
+                  <li>When this person is at their best, what do they do that creates clarity or confidence?</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <!-- References -->
+      <section id="refs" data-bg="var(--bg-1)">
+        <details class="unit">
+          <summary class="unit-title"><span class="idx">📚</span>References <span class="chev"></span></summary>
+          <div class="content">
+            <div class="grid">
+              <div class="card card-span">
+                <h4>Primary references</h4>
+                <ul>
+                  <li><a href="https://www.goodreads.com/book/show/40086702-nine-lies-about-work" target="_blank" rel="noreferrer">Nine Lies About Work (Buckingham &amp; Goodall)</a></li>
+                  <li><a href="https://www.gallup.com/workplace/236441/employee-engagement-drives-growth.aspx" target="_blank" rel="noreferrer">Gallup on engagement (context for pulse items)</a></li>
+                  <li><a href="https://news.gallup.com/businessjournal/182792/managers-account-variance-employee-engagement.aspx" target="_blank" rel="noreferrer">Gallup on managers and engagement variance</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </details>
+      </section>
+
+    </main>
+  </div>
+
+  <script>
+    // Smooth scroll for sidebar with proper expansion
+    document.querySelectorAll('.toc a').forEach(a => {
+      a.addEventListener('click', (e) => {
+        e.preventDefault();
+        const id = a.getAttribute('href');
+        const section = document.querySelector(id);
+        if (!section) return;
+
+        const details = section.querySelector('details.unit');
+        if (details && !details.open) details.open = true;
+
+        setTimeout(() => {
+          section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 80);
+      });
+    });
+
+    // IntersectionObserver to: 1) highlight TOC; 2) change background by section
+    const sections = document.querySelectorAll('main section');
+    const tocLinks = Array.from(document.querySelectorAll('.toc a'));
+    const opts = { root: null, rootMargin: '-30% 0px -60% 0px', threshold: 0 };
+
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = '#' + entry.target.id;
+          tocLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === id));
+
+          const bg = entry.target.dataset.bg;
+          if (bg) {
+            document.body.style.background = bg;
+            document.body.style.backgroundAttachment = 'fixed';
+          }
+        }
+      });
+    }, opts);
+
+    sections.forEach(s => io.observe(s));
+  </script>
+</body>
+</html>

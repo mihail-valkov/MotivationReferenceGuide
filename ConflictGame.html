@@ -1,0 +1,571 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Conflict Guessing Game – Blur Reveal</title>
+  <style>
+    :root {
+      --panel-bg: rgba(20, 20, 24, 0.72);
+      --panel-border: rgba(255, 255, 255, 0.14);
+      --text: rgba(255, 255, 255, 0.92);
+      --muted: rgba(255, 255, 255, 0.70);
+      --btn: rgba(255, 255, 255, 0.10);
+      --btn-hover: rgba(255, 255, 255, 0.16);
+      --btn-active: rgba(255, 255, 255, 0.22);
+      --shadow: 0 10px 30px rgba(0,0,0,0.35);
+      --radius: 14px;
+    }
+
+    html, body {
+      height: 100%;
+      margin: 0;
+      background: #0b0b0e;
+      overflow: hidden;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      color: var(--text);
+    }
+
+    #stage {
+      position: fixed;
+      inset: 0;
+    }
+
+    canvas {
+      position: absolute;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      display: block;
+      touch-action: none; /* important for pointer events on touch devices */
+      cursor: none;
+    }
+
+    #cursor {
+      pointer-events: none;
+    }
+
+    .toolbar {
+      position: fixed;
+      top: 14px;
+      left: 14px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      padding: 10px 12px;
+      background: var(--panel-bg);
+      border: 1px solid var(--panel-border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      user-select: none;
+    }
+
+    .group {
+      display: inline-flex;
+      gap: 6px;
+      align-items: center;
+      padding-right: 10px;
+      margin-right: 10px;
+      border-right: 1px solid rgba(255,255,255,0.10);
+    }
+    .group:last-child {
+      border-right: none;
+      padding-right: 0;
+      margin-right: 0;
+    }
+
+    .label {
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 0.2px;
+      margin-right: 4px;
+      white-space: nowrap;
+    }
+
+    button {
+      appearance: none;
+      border: 1px solid rgba(255,255,255,0.16);
+      background: var(--btn);
+      color: var(--text);
+      padding: 7px 10px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 650;
+      font-size: 13px;
+      letter-spacing: 0.2px;
+    }
+    button:hover { background: var(--btn-hover); }
+    button:active { background: var(--btn-active); }
+
+    button.active {
+      background: rgba(80, 160, 255, 0.22);
+      border-color: rgba(80, 160, 255, 0.40);
+    }
+
+    .tiny {
+      font-weight: 600;
+      font-size: 12px;
+      padding: 6px 9px;
+      opacity: 0.95;
+    }
+
+    .hint {
+      position: fixed;
+      bottom: 14px;
+      left: 14px;
+      max-width: min(520px, calc(100vw - 28px));
+      padding: 10px 12px;
+      background: var(--panel-bg);
+      border: 1px solid var(--panel-border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.35;
+      user-select: none;
+    }
+
+    .hint kbd {
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-bottom-color: rgba(255,255,255,0.10);
+      border-radius: 8px;
+      padding: 2px 7px;
+      color: var(--text);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .filepick {
+      display: none;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .topright {
+      position: fixed;
+      top: 14px;
+      right: 14px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      padding: 10px 12px;
+      background: var(--panel-bg);
+      border: 1px solid var(--panel-border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      user-select: none;
+    }
+
+    .status {
+      font-size: 12px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="stage">
+    <canvas id="c"></canvas>
+    <canvas id="cursor"></canvas>
+  </div>
+
+  <div class="toolbar">
+    <div class="group">
+      <span class="label">Brush</span>
+      <button id="bSmall" class="active" title="Small brush (1)">S</button>
+      <button id="bMed" title="Medium brush (2)">M</button>
+      <button id="bLarge" title="Large brush (3)">L</button>
+    </div>
+
+    <div class="group">
+      <button id="revealAll" title="Reveal the whole image (R)">Reveal all</button>
+      <button id="reset" class="tiny" title="Re-blur and start over (X)">Reset</button>
+    </div>
+
+    <div class="group">
+      <button id="fullscreen" class="tiny" title="Toggle fullscreen (F)">Fullscreen</button>
+      <button id="loadImg" class="tiny hidden" title="Load a different image">Load image</button>
+      <input id="file" class="filepick hidden" type="file" accept="image/*" />
+    </div>
+  </div>
+
+  <div class="topright">
+    <div class="status" id="status">Loading image…</div>
+  </div>
+
+  <!-- <div class="hint">
+    Drag to “paint” unblurred areas. Shortcuts:
+    <kbd>1</kbd>/<kbd>2</kbd>/<kbd>3</kbd> brush size,
+    <kbd>R</kbd> reveal all,
+    <kbd>X</kbd> reset,
+    <kbd>F</kbd> fullscreen.
+  </div> -->
+
+  <script>
+    // Put your image next to this HTML and name it "conflict.png"
+    // Or click "Load image" to pick any file.
+    const DEFAULT_IMAGE_SRC = "conflict.png";
+
+    // How strong the initial blur is (in px). Increase for more difficulty.
+    const INITIAL_BLUR_PX = 26;
+
+    const canvas = document.getElementById("c");
+    const ctx = canvas.getContext("2d", { alpha: false });
+
+    const cursorCanvas = document.getElementById("cursor");
+    const cursorCtx = cursorCanvas.getContext("2d", { alpha: true });
+
+    const statusEl = document.getElementById("status");
+
+    const bSmall = document.getElementById("bSmall");
+    const bMed = document.getElementById("bMed");
+    const bLarge = document.getElementById("bLarge");
+
+    const revealAllBtn = document.getElementById("revealAll");
+    const resetBtn = document.getElementById("reset");
+    const fsBtn = document.getElementById("fullscreen");
+
+    const loadImgBtn = document.getElementById("loadImg");
+    const fileInput = document.getElementById("file");
+
+    let img = new Image();
+    img.decoding = "async";
+
+    // Drawing state
+    let isPainting = false;
+    let brushMode = "S"; // S | M | L
+    let blurPx = INITIAL_BLUR_PX;
+    let hasRevealedAll = false;
+
+    // Cursor preview state (CSS pixel coordinates)
+    let pointer = { x: 0, y: 0, inside: false };
+
+    // Image placement (CSS pixel coordinates)
+    let drawRect = { x: 0, y: 0, w: 0, h: 0 };
+
+    // Keep strokes so resizing does not lose progress
+    // Points are stored in normalised image-space relative to drawRect.
+    // radiusNorm is relative to min(drawRect.w, drawRect.h)
+    let strokes = []; // { xNorm, yNorm, radiusNorm }
+
+    function setStatus(text) {
+      statusEl.textContent = text;
+    }
+
+    function setBrush(mode) {
+      brushMode = mode;
+      bSmall.classList.toggle("active", mode === "S");
+      bMed.classList.toggle("active", mode === "M");
+      bLarge.classList.toggle("active", mode === "L");
+
+      drawCursorPreview();
+    }
+
+    function clearCursor() {
+      cursorCtx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+    }
+
+    function drawCursorPreview() {
+      clearCursor();
+      if (!pointer.inside) return;
+      if (!img.naturalWidth) return;
+
+      const cx = pointer.x;
+      const cy = pointer.y;
+
+      // Only show when we're over the drawn image area
+      if (cx < drawRect.x || cy < drawRect.y || cx > drawRect.x + drawRect.w || cy > drawRect.y + drawRect.h) return;
+
+      const r = brushRadiusPx();
+
+      cursorCtx.save();
+      cursorCtx.beginPath();
+      cursorCtx.arc(cx, cy, r, 0, Math.PI * 2);
+      cursorCtx.strokeStyle = "rgba(25,25,28,0.55)";
+      cursorCtx.lineWidth = 1;
+      cursorCtx.stroke();
+      cursorCtx.restore();
+    }
+
+    function brushRadiusPx() {
+      // Radius in CSS pixels, relative to image on-screen size
+      const base = Math.min(drawRect.w, drawRect.h);
+      if (!base) return 24;
+
+      if (brushMode === "S") return Math.max(16, base * 0.020);
+      if (brushMode === "M") return Math.max(28, base * 0.035);
+      return Math.max(44, base * 0.060); // L
+    }
+
+    function resizeCanvas() {
+      const dpr = Math.max(1, window.devicePixelRatio || 1);
+      const cssW = window.innerWidth;
+      const cssH = window.innerHeight;
+
+      for (const c of [canvas, cursorCanvas]) {
+        c.style.width = cssW + "px";
+        c.style.height = cssH + "px";
+        c.width = Math.floor(cssW * dpr);
+        c.height = Math.floor(cssH * dpr);
+      }
+
+      // Use CSS pixel coordinates in our drawing calls
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      cursorCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      computeDrawRect();
+      redraw();
+      drawCursorPreview();
+    }
+
+    function computeDrawRect() {
+      const cw = window.innerWidth;
+      const ch = window.innerHeight;
+
+      const iw = img.naturalWidth || 1;
+      const ih = img.naturalHeight || 1;
+
+      const scale = Math.min(cw / iw, ch / ih);
+      const w = iw * scale;
+      const h = ih * scale;
+
+      drawRect.w = w;
+      drawRect.h = h;
+      drawRect.x = (cw - w) / 2;
+      drawRect.y = (ch - h) / 2;
+    }
+
+    function drawBlurredBase() {
+      // Background
+      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+      ctx.fillStyle = "#0b0b0e";
+      ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+
+      // Blurred image
+      ctx.save();
+      ctx.filter = `blur(${blurPx}px)`;
+      ctx.drawImage(img, drawRect.x, drawRect.y, drawRect.w, drawRect.h);
+      ctx.restore();
+    }
+
+    function revealAt(cx, cy, radius) {
+      if (hasRevealedAll) return;
+
+      // Only reveal if we're over the drawn image area
+      if (cx < drawRect.x || cy < drawRect.y || cx > drawRect.x + drawRect.w || cy > drawRect.y + drawRect.h) return;
+
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+      ctx.closePath();
+      ctx.clip();
+
+      ctx.filter = "none";
+      ctx.drawImage(img, drawRect.x, drawRect.y, drawRect.w, drawRect.h);
+
+      ctx.restore();
+    }
+
+    function addStroke(cx, cy, radius) {
+      const xNorm = (cx - drawRect.x) / drawRect.w;
+      const yNorm = (cy - drawRect.y) / drawRect.h;
+
+      if (xNorm < 0 || xNorm > 1 || yNorm < 0 || yNorm > 1) return;
+
+      const base = Math.min(drawRect.w, drawRect.h);
+      const radiusNorm = radius / base;
+
+      strokes.push({ xNorm, yNorm, radiusNorm });
+    }
+
+    function redraw() {
+      if (!img.naturalWidth) return;
+
+      drawBlurredBase();
+
+      // Re-apply all strokes
+      if (!hasRevealedAll) {
+        const base = Math.min(drawRect.w, drawRect.h);
+        for (const s of strokes) {
+          const cx = drawRect.x + s.xNorm * drawRect.w;
+          const cy = drawRect.y + s.yNorm * drawRect.h;
+          const r = s.radiusNorm * base;
+          revealAt(cx, cy, r);
+        }
+      } else {
+        // Revealed all
+        ctx.filter = "none";
+        ctx.drawImage(img, drawRect.x, drawRect.y, drawRect.w, drawRect.h);
+      }
+
+      drawCursorPreview();
+    }
+
+    function revealAll() {
+      hasRevealedAll = true;
+      redraw();
+      setStatus("Revealed");
+    }
+
+    function reset() {
+      hasRevealedAll = false;
+      strokes = [];
+      redraw();
+      setStatus("Blurred (ready)");
+    }
+
+    function toggleFullscreen() {
+      const el = document.documentElement;
+      if (!document.fullscreenElement) {
+        el.requestFullscreen?.();
+      } else {
+        document.exitFullscreen?.();
+      }
+    }
+
+    function pointerPos(e) {
+      const rect = canvas.getBoundingClientRect();
+      return {
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top
+      };
+    }
+
+    function hookPointerPainting() {
+      canvas.addEventListener("pointerenter", (e) => {
+        pointer.inside = true;
+        const p = pointerPos(e);
+        pointer.x = p.x;
+        pointer.y = p.y;
+        drawCursorPreview();
+      });
+
+      canvas.addEventListener("pointerleave", () => {
+        pointer.inside = false;
+        clearCursor();
+      });
+
+      canvas.addEventListener("pointerdown", (e) => {
+        e.preventDefault();
+        canvas.setPointerCapture?.(e.pointerId);
+        isPainting = true;
+
+        const p = pointerPos(e);
+        pointer.x = p.x;
+        pointer.y = p.y;
+        const r = brushRadiusPx();
+        revealAt(p.x, p.y, r);
+        addStroke(p.x, p.y, r);
+
+        drawCursorPreview();
+
+        setStatus("Revealing…");
+      });
+
+      canvas.addEventListener("pointermove", (e) => {
+        e.preventDefault();
+
+        const p = pointerPos(e);
+        pointer.x = p.x;
+        pointer.y = p.y;
+        const r = brushRadiusPx();
+
+        if (isPainting) {
+          revealAt(p.x, p.y, r);
+          addStroke(p.x, p.y, r);
+        }
+
+        drawCursorPreview();
+      });
+
+      const stop = (e) => {
+        if (!isPainting) return;
+        e.preventDefault();
+        isPainting = false;
+        setStatus(hasRevealedAll ? "Revealed" : "Blurred (painting paused)");
+      };
+
+      canvas.addEventListener("pointerup", stop);
+      canvas.addEventListener("pointercancel", stop);
+    }
+
+    function hookUI() {
+      bSmall.addEventListener("click", () => setBrush("S"));
+      bMed.addEventListener("click", () => setBrush("M"));
+      bLarge.addEventListener("click", () => setBrush("L"));
+
+      revealAllBtn.addEventListener("click", revealAll);
+      resetBtn.addEventListener("click", reset);
+      fsBtn.addEventListener("click", toggleFullscreen);
+
+      loadImgBtn.addEventListener("click", () => fileInput.click());
+      fileInput.addEventListener("change", async (e) => {
+        const file = e.target.files && e.target.files[0];
+        if (!file) return;
+
+        const url = URL.createObjectURL(file);
+        await loadImage(url);
+        URL.revokeObjectURL(url);
+      });
+
+      window.addEventListener("keydown", (e) => {
+        const k = e.key.toLowerCase();
+        if (k === "1") setBrush("S");
+        if (k === "2") setBrush("M");
+        if (k === "3") setBrush("L");
+        if (k === "r") revealAll();
+        if (k === "x") reset();
+        if (k === "f") toggleFullscreen();
+      });
+
+      window.addEventListener("resize", resizeCanvas);
+
+      document.addEventListener("fullscreenchange", () => {
+        // Fullscreen often changes viewport sizes
+        resizeCanvas();
+      });
+    }
+
+    async function loadImage(src) {
+      setStatus("Loading image…");
+      hasRevealedAll = false;
+      strokes = [];
+
+      clearCursor();
+
+      img = new Image();
+      img.decoding = "async";
+
+      await new Promise((resolve, reject) => {
+        img.onload = () => resolve();
+        img.onerror = (err) => reject(err);
+        img.src = src;
+      }).catch(() => {
+        setStatus("Failed to load image. Put 'conflict.png' next to this HTML or use Load image.");
+        return;
+      });
+
+      computeDrawRect();
+      redraw();
+      setStatus("Blurred (ready)");
+    }
+
+    // Init
+    setBrush("S");
+    hookUI();
+    hookPointerPainting();
+    resizeCanvas();
+    loadImage(DEFAULT_IMAGE_SRC);
+  </script>
+</body>
+</html>
